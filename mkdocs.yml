@@ -14,7 +14,7 @@ nav:
   - Quick Start:
     - New to Energy Atlas: getting-started/welcome.md
     - UBEM Fundamentals: getting-started/ubem-fundamentals.md
-    - Technical References: technical-references/technical-references.md
+    
   - Energy Atlas References:
     - Data Preparation: references/data-prep.md
     - Input Output Guide: references/input-output.md
@@ -38,10 +38,10 @@ nav:
     - Archetype Library: resources/archetype-library.md
     - Weather Library: resources/weather-library.md
     - Retrofit Measures Library: resources/retrofit-measures-library.md
+    - Technical References: technical-references/technical-references.md
     - FAQ: resources/faq.md
-  - Contribute:
     - Wiki Guide: wiki-guide/wiki-guide.md
-    - Wiki Image Guide: wiki-guide/image-guide.md
+    # - Wiki Image Guide: wiki-guide/image-guide.md
 
 markdown_extensions:
   - attr_list
