@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if page and page.meta and page.meta.title %}
+        {% set page_title = page.meta.title %}
+    {% elif page and page.title %}
+        {% set page_title = page.title %}
+    {% else %}
+        {% set page_title = "Page" %}
+    {% endif %}
+
+    {% if page and page.meta and page.meta.description %}
+        {% set page_description = page.meta.description %}
+    {% else %}
+        {% set page_description = "Documentation page" %}
+    {% endif %}
+
+    {% set breadcrumbs = [] %}
+    {% if nav %}
+        {% for nav_item in nav %}
+            {% if nav_item.active %}
+                {% set _ = breadcrumbs.append(nav_item.title) %}
+            {% elif nav_item.children %}
+                {% for nav_child in nav_item.children %}
+                    {% if nav_child.active %}
+                        {% set _ = breadcrumbs.append(nav_item.title) %}
+                        {% set _ = breadcrumbs.append(nav_child.title) %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    <div class="menu-column-header">
+        {% if breadcrumbs %}
+            <p class="menu-paragraph wiki-breadcrumbs">
+                {% for crumb in breadcrumbs %}
+                    {{ crumb }}{% if not loop.last %} / {% endif %}
+                {% endfor %}
+            </p>
+        {% endif %}
+    </div>
+
+    <div class="md-content">
+        {{ page.content }}
+    </div>
+{% endblock %}

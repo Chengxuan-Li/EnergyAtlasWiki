@@ -1,0 +1,72 @@
+site_name: EnergyAtlas Wiki
+site_description: Documentation for EnergyAtlas
+repo_url: https://github.com/REPLACE_ME/REPO
+edit_uri: edit/main/docs/
+
+theme:
+  name: null  # Use custom theme
+  custom_dir: theme
+  static_templates:
+    - 404.html
+
+nav:
+  - Quick Start:
+    - New to Energy Atlas: getting-started/welcome.md
+    - UBEM Fundamentals: getting-started/ubem-fundamentals.md
+    - Technical References: technical-references/technical-references.md
+  - Energy Atlas References:
+    - Data Preparation: references/data-prep.md
+    - Input Output Guide: references/input-output.md
+    - Workflows: references/workflows.md
+      # - Workflows Guide: references/workflows.md
+      # - Urban Data Integration: references/workflows/urban-data-integration.md
+      # - Template Definition and Assignment: references/workflows/template-definition-assignment.md
+      # - Running and Calibrating: references/workflows/running-calibrating.md
+      # - Scenario Design and Simulation: references/workflows/scenario-design-simulation.md
+      # - Results View: references/workflows/results-view.md
+    - Energy Atlas Objects: references/energy-atlas-objects.md
+      # - Energy Atlas Objects Overview: references/energy-atlas-objects.md
+      # - Datahub: references/objects/datahub.md
+      # - Archetype: references/objects/archetype.md
+      # - Archetype Assignment Rule: references/objects/archetype-assignment-rule.md
+      # - Geospatial Data: references/objects/geospatial-data.md
+      # - Weather File: references/objects/weather-file.md
+      # - Retrofit Measure: references/objects/retrofit-measure.md
+      # - Scenario: references/objects/scenario.md
+  - Resources:
+    - Archetype Library: resources/archetype-library.md
+    - Weather Library: resources/weather-library.md
+    - Retrofit Measures Library: resources/retrofit-measures-library.md
+    - FAQ: resources/faq.md
+  - Contribute:
+    - Wiki Guide: wiki-guide/wiki-guide.md
+    - Wiki Image Guide: wiki-guide/image-guide.md
+
+markdown_extensions:
+  - attr_list
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.arithmatex:
+      generic: true
+  - toc:
+      permalink: true
+
+plugins:
+  - search
+  - macros:
+      variables:
+        version: "January 2026"
+
+extra_css:
+  - assets/css/main.css
+  - assets/css/statusBar.css
+
+extra_javascript:
+  - assets/js/mathjax-config.js
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+extra:
+  version: "January 2026"

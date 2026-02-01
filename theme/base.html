@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% if page and page.meta and page.meta.title %}
+        <title>{{ page.meta.title }} - {{ config.site_name }}</title>
+    {% elif page and page.title %}
+        <title>{{ page.title }} - {{ config.site_name }}</title>
+    {% else %}
+        <title>{{ config.site_name }}</title>
+    {% endif %}
+    
+    {% for path in config.extra_css %}
+        <link rel="stylesheet" href="{{ path | url }}" />
+    {% endfor %}
+    
+    <style>
+        .wiki-title-row {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .wiki-app-icon {
+            width: 32px;
+            height: 32px;
+        }
+
+        .wiki-grid {
+            grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+        }
+
+        .wiki-breadcrumbs {
+            font-size: var(--font-size-xs);
+            color: var(--text-muted);
+        }
+
+        /* MkDocs content styling */
+        .md-content {
+            color: var(--text-light);
+        }
+
+        .md-content h1,
+        .md-content h2,
+        .md-content h3,
+        .md-content h4,
+        .md-content h5,
+        .md-content h6 {
+            color: var(--text-dark);
+            font-family: var(--font-family);
+            font-variation-settings: 'wdth' 150, 'wght' 500;
+            letter-spacing: -0.02em;
+            margin-top: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .md-content h1 {
+            font-size: var(--font-size-3xl);
+        }
+
+        .md-content h2 {
+            font-size: var(--font-size-2xl);
+        }
+
+        .md-content h3 {
+            font-size: var(--font-size-xl);
+        }
+
+        .md-content h4 {
+            font-size: var(--font-size-lg);
+        }
+
+        .md-content p {
+            margin-bottom: var(--spacing-md);
+            line-height: 1.6;
+        }
+
+        .md-content ul,
+        .md-content ol {
+            margin-bottom: var(--spacing-md);
+            padding-left: var(--spacing-lg);
+        }
+
+        .md-content li {
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .md-content a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        .md-content a:hover {
+            text-decoration: underline;
+        }
+
+        .md-content code {
+            background: var(--bg-dark-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-sm);
+            padding: 2px 6px;
+            font-family: var(--font-family-mono);
+            font-size: var(--font-size-sm);
+            color: var(--text-dark);
+        }
+
+        .md-content pre {
+            background: var(--bg-dark-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            overflow-x: auto;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .md-content pre code {
+            background: transparent;
+            border: none;
+            padding: 0;
+        }
+
+        .md-content blockquote {
+            border-left: 4px solid var(--accent-color);
+            padding-left: var(--spacing-md);
+            margin-left: 0;
+            margin-bottom: var(--spacing-md);
+            color: var(--text-light);
+        }
+
+        .md-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .md-content table th,
+        .md-content table td {
+            border: 1px solid var(--border-color);
+            padding: var(--spacing-sm);
+            text-align: left;
+        }
+
+        .md-content table th {
+            background: var(--bg-dark-surface);
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .md-content table td {
+            background: var(--bg-light);
+        }
+
+        /* Navigation links styling */
+        .wiki-nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            color: var(--accent-color);
+            text-decoration: none;
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+            font-variation-settings: 'wdth' 150, 'wght' 500;
+            padding: var(--spacing-xs) 0;
+        }
+
+        .wiki-nav-link:hover {
+            text-decoration: underline;
+        }
+
+        .wiki-nav-link.active {
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .wiki-nav-link-icon {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            border: 1px solid var(--accent-color);
+            background: rgba(18, 93, 174, 0.2);
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-color);
+        }
+
+        .wiki-nav-link-icon svg {
+            width: 10px;
+            height: 10px;
+            display: block;
+        }
+    </style>
+</head>
+<body class="menu">
+    <div class="wiki-topbar">
+        <div class="wiki-topbar-inner">
+            <a class="wiki-topbar-left" href="{{ 'index.html' | url }}" aria-label="{{ config.site_name }}">
+                <img class="wiki-topbar-icon" src="{{ 'assets/images/icon.svg' | url }}" alt="EnergyAtlas app icon" />
+                <span class="wiki-topbar-title">{{ config.site_name }}</span>
+            </a>
+            <div class="wiki-topbar-center" role="search">
+                <input class="wiki-topbar-search" type="search" id="mkdocs-search-query" placeholder="Search documentation" aria-label="Search documentation" />
+                <div class="wiki-topbar-search-results" id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="wiki-topbar-right">
+                {% if page and page.edit_url %}
+                    <a class="wiki-topbar-link" href="{{ page.edit_url }}" target="_blank" rel="noopener">
+                        <span class="wiki-topbar-link-icon" aria-hidden="true">
+                            <svg viewBox="0 0 16 16" fill="currentColor">
+                                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2 .37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.5 7.5 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+                            </svg>
+                        </span>
+                        Edit on GitHub
+                    </a>
+                {% elif config.repo_url %}
+                    <a class="wiki-topbar-link" href="{{ config.repo_url }}" target="_blank" rel="noopener">
+                        <span class="wiki-topbar-link-icon" aria-hidden="true">
+                            <svg viewBox="0 0 16 16" fill="currentColor">
+                                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2 .37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.5 7.5 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+                            </svg>
+                        </span>
+                        View on GitHub
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="menu-content">
+            <div class="menu-grid wiki-grid">
+                <aside class="menu-column menu-column-nav">
+                    <div class="menu-column-header">
+                        <h2 class="menu-column-title">Wiki Navigation</h2>
+                        <p class="menu-column-subtitle">Browse topics and documentation pages.</p>
+                    </div>
+
+                    {% if nav %}
+                        {% set first_section = true %}
+                        {% for nav_item in nav %}
+                            {% if nav_item.children %}
+                                {% if first_section %}
+                                    <div class="menu-card">
+                                        <h3 class="menu-card-title">{{ nav_item.title }}</h3>
+                                        <div class="menu-link-list">
+                                        {% for nav_child in nav_item.children %}
+                                            <a class="menu-link wiki-nav-link {% if nav_child.active %}active{% endif %}" href="{{ nav_child.url | url }}">
+                                                {{ nav_child.title }}
+                                            </a>
+                                        {% endfor %}
+                                        </div>
+                                    </div>
+                                    {% set first_section = false %}
+                                {% else %}
+                                    <h3 class="menu-section-title">{{ nav_item.title }}</h3>
+                                    <div class="menu-link-list">
+                                        {% for nav_child in nav_item.children %}
+                                            <a class="menu-link wiki-nav-link {% if nav_child.active %}active{% endif %}" href="{{ nav_child.url | url }}">
+                                                {{ nav_child.title }}
+                                            </a>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            {% else %}
+                                {% if first_section %}
+                                    <div class="menu-card">
+                                        <h3 class="menu-card-title">{{ nav_item.title }}</h3>
+                                    </div>
+                                    {% set first_section = false %}
+                                {% else %}
+                                    <h3 class="menu-section-title">{{ nav_item.title }}</h3>
+                                    <div class="menu-link-list">
+                                        <a class="menu-link wiki-nav-link {% if nav_item.active %}active{% endif %}" href="{{ nav_item.url | url }}">
+                                            {{ nav_item.title }}
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </aside>
+
+                <main class="menu-column menu-column-content">
+                    {% block content %}
+                        {{ page.content }}
+                    {% endblock %}
+                </main>
+            </div>
+        </div>
+    </div>
+    <script src="{{ 'search/main.js' | url }}" defer></script>
+    {% if config.extra_javascript %}
+        {% for path in config.extra_javascript %}
+            <script src="{{ path | url }}" defer></script>
+        {% endfor %}
+    {% endif %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var baseOrigin = window.location.origin;
+            var links = document.querySelectorAll('.md-content a[href]');
+            links.forEach(function (link) {
+                var href = link.getAttribute('href');
+                if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:')) {
+                    return;
+                }
+                var isExternal = href.startsWith('http://') || href.startsWith('https://');
+                if (!isExternal) {
+                    try {
+                        var resolved = new URL(href, baseOrigin);
+                        isExternal = resolved.origin !== baseOrigin;
+                    } catch (e) {
+                        isExternal = false;
+                    }
+                }
+                if (isExternal) {
+                    link.setAttribute('target', '_blank');
+                    link.setAttribute('rel', 'noopener noreferrer');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
