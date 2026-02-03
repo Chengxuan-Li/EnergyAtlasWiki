@@ -1,6 +1,6 @@
 # Welcome to EnergyAtlas Wiki
 
-![TitleImage](https://es.aap.cornell.edu/EnergyAtlasWebsite/assets/img/feature-digital-twin.jpg){.full-width}
+![TitleImage](assets/images/software-interface-cover.png){.full-width}
 
 
 Welcome to the Wiki for [EnergyAtlas.io](http://EnergyAtlas.io/) - your comprehensive guide to understanding and using the EnergyAtlas platform for Urban Building Energy Modeling (UBEM).

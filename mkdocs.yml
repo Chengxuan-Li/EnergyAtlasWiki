@@ -35,28 +35,35 @@ nav:
       # - Retrofit Measure: references/objects/retrofit-measure.md
       # - Scenario: references/objects/scenario.md
   - Resources:
-    - Archetype Library: resources/archetype-library.md
-    - Weather Library: resources/weather-library.md
-    - Retrofit Measures Library: resources/retrofit-measures-library.md
+    - Resource Library: resources/resource-library.md
+    # - Archetype Library: resources/archetype-library.md
+    # - Weather Library: resources/weather-library.md
+    # - Retrofit Measures Library: resources/retrofit-measures-library.md
     - Technical References: technical-references/technical-references.md
     - FAQ: resources/faq.md
     - Wiki Guide: wiki-guide/wiki-guide.md
+    - Plotting Guide: wiki-guide/plotting-guide.md
+    - Plotting Playground: wiki-guide/plotting-playground.md
     # - Wiki Image Guide: wiki-guide/image-guide.md
 
 markdown_extensions:
   - attr_list
   - pymdownx.highlight:
-      anchor_linenums: true
+      anchor_linenums: false
+      linenums: true
   - pymdownx.inlinehilite
   - pymdownx.snippets
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: plotly
+          class: plotly
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.arithmatex:
       generic: true
   - toc:
       permalink: true
 
 plugins:
-  - search
   - macros:
       variables:
         version: "January 2026"
@@ -68,6 +75,9 @@ extra_css:
 extra_javascript:
   - assets/js/mathjax-config.js
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+  - https://cdn.jsdelivr.net/npm/js-yaml@4/dist/js-yaml.min.js
+  - https://cdn.plot.ly/plotly-2.32.0.min.js
+  - assets/js/plotly-render.js
 
 extra:
   version: "January 2026"

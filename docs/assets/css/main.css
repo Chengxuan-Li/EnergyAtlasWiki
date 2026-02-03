@@ -54,6 +54,63 @@ html {
     scroll-behavior: smooth;
 }
 
+/* Scrollbar styling (dark theme) */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.35);
+}
+
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+/* Page transition animations */
+.menu-column-content {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.md-content {
+    animation: fadeInContent 0.4s ease-in-out;
+}
+
+@keyframes fadeInContent {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
 body {
     font-family: var(--font-family);
     font-weight: 200;
@@ -206,7 +263,6 @@ body.menu {
     top: 0;
     left: 0;
     right: 0;
-    height: 56px;
     background: var(--bg-dark-surface);
     border-bottom: 1px solid var(--border-color);
     display: flex;
@@ -218,10 +274,15 @@ body.menu {
     width: 100%;
     max-width: var(--max-width);
     margin: 0 auto;
-    padding: 0 var(--spacing-lg);
+    padding: var(--spacing-md) var(--spacing-lg);
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: var(--spacing-lg);
+}
+
+.wiki-topbar-left-group {
+    display: flex;
+    align-items: center;
     gap: var(--spacing-lg);
 }
 
@@ -238,45 +299,69 @@ body.menu {
 }
 
 .wiki-topbar-icon {
-    width: 20px;
-    height: 20px;
+    width: 32px;
+    height: 32px;
 }
 
 .wiki-topbar-title {
-    font-size: var(--font-size-sm);
-    font-weight: 500;
-    font-variation-settings: 'wdth' 150, 'wght' 500;
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    font-family: var(--font-family);
+    font-variation-settings: 'wdth' 150, 'wght' 700;
+    letter-spacing: -0.05em;
 }
 
-.wiki-topbar-center {
-    flex: 1;
+.wiki-topbar-title-light {
+    font-size: var(--font-size-xl);
+    font-weight: 300;
+    font-variation-settings: 'wdth' 150, 'wght' 200;
+    letter-spacing: -0.05em;
+}
+
+.wiki-topbar-nav {
     display: flex;
-    justify-content: center;
+    align-items: center;
+    flex: 1;
+    justify-content: flex-end;
 }
 
-.wiki-topbar-search {
-    width: min(520px, 100%);
-    background: var(--bg-light);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-sm);
-    padding: 6px 10px;
+.wiki-topbar-nav-list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: var(--spacing-xl);
+}
+
+.wiki-topbar-nav-link {
+    text-decoration: none;
     color: var(--text-dark);
+    font-weight: 300;
     font-size: var(--font-size-sm);
+    font-variation-settings: 'wdth' 150, 'wght' 200;
+    letter-spacing: -0.02em;
+    transition: color 0.2s ease;
 }
 
-.wiki-topbar-search:focus {
-    outline: 2px solid var(--accent-color);
-    outline-offset: 2px;
+.wiki-topbar-nav-link:hover {
+    color: var(--accent-color);
 }
 
-.wiki-topbar-search-results {
-    display: none;
-}
-
-.wiki-topbar-right {
+.wiki-topbar-link {
     display: inline-flex;
     align-items: center;
-    gap: var(--spacing-sm);
+    gap: var(--spacing-xs);
+    color: var(--text-dark);
+    text-decoration: none;
+    font-size: var(--font-size-sm);
+    font-weight: 300;
+    font-variation-settings: 'wdth' 150, 'wght' 200;
+    letter-spacing: -0.02em;
+    transition: color 0.2s ease;
+}
+
+.wiki-topbar-link:hover {
+    color: var(--accent-color);
 }
 
 .wiki-topbar-link {
@@ -313,7 +398,7 @@ body.menu {
 
 body.menu > .container {
     padding: var(--spacing-lg);
-    padding-top: calc(56px + var(--spacing-xl));
+    padding-top: calc(32px + var(--spacing-md) * 2 + var(--spacing-xl));
 }
 
 body.menu > .status-bar {
@@ -351,11 +436,12 @@ body.menu > .status-bar {
 
 .menu-column-content {
     padding: 0;
+    transition: opacity 0.3s ease-in-out;
 }
 
 .menu-column-nav {
     position: sticky;
-    top: calc(56px + var(--spacing-xl));
+    top: calc(32px + var(--spacing-md) * 2 + var(--spacing-xl));
     align-self: start;
 }
 
@@ -541,6 +627,15 @@ body.menu > .status-bar {
     margin-top: 0;
 }
 
+.md-content h1,
+.md-content h2,
+.md-content h3,
+.md-content h4,
+.md-content h5,
+.md-content h6 {
+    scroll-margin-top: calc(32px + var(--spacing-md) * 2 + var(--spacing-lg));
+}
+
 .md-content h1 {
     font-size: var(--font-size-3xl);
     font-weight: 600;
@@ -561,6 +656,25 @@ body.menu > .status-bar {
     font-weight: 500;
 }
 
+/* Scroll progress bar */
+.scroll-progress-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: transparent;
+    z-index: 3000;
+    width: 100%;
+}
+
+.scroll-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    width: 0%;
+    transition: width 0.1s ease-out;
+}
+
 .menu-column-header {
     margin-bottom: var(--spacing-sm);
 }
@@ -577,7 +691,6 @@ body.menu > .status-bar {
     display: block;
     margin: var(--spacing-lg) auto;
     border-radius: var(--border-radius);
-    border: 1px solid var(--border-color);
 }
 
 /* Centered images */
@@ -688,6 +801,187 @@ body.menu > .status-bar {
 
 .md-content table tbody tr td {
     background: transparent;
+}
+
+/* Plotly charts */
+.plotly-chart {
+    width: 100%;
+    min-height: 360px;
+    margin: var(--spacing-md) 0;
+}
+
+.plotly-playground-error {
+    color: var(--secondary-color);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-sm);
+}
+
+.plotly-playground-chart {
+    margin-bottom: var(--spacing-md);
+}
+
+.plotly-playground-editor {
+    width: 100%;
+    min-height: 260px;
+    background: transparent;
+    color: var(--text-dark);
+    border: none;
+    padding: 0;
+    font-family: var(--font-family-mono);
+    font-size: var(--font-size-sm);
+    line-height: 1.6;
+    resize: vertical;
+    overflow-x: auto;
+    white-space: pre;
+}
+
+.plotly-playground .code-block-lines {
+    display: flex;
+    flex-direction: column;
+    padding-top: var(--spacing-sm);
+    padding-bottom: var(--spacing-sm);
+    overflow: hidden;
+}
+
+.plotly-playground .code-block-lines pre {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: none;
+    white-space: pre;
+    line-height: 1.6;
+    font-family: var(--font-family-mono);
+    font-size: var(--font-size-sm);
+    color: var(--text-dark);
+}
+
+.plotly-playground .code-block-content {
+    overflow: hidden;
+}
+
+.plotly-playground-editor {
+    padding-top: var(--spacing-sm);
+    padding-bottom: var(--spacing-sm);
+}
+
+.copy-button,
+.plotly-playground-copy {
+    background: transparent;
+    color: var(--accent-color);
+    border: none;
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-xs);
+    padding: 2px 6px;
+    cursor: pointer;
+}
+
+.copy-button:hover,
+.plotly-playground-copy:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+/* Code block container structure */
+.code-block-container {
+    background: var(--bg-light);
+    padding: var(--spacing-sm);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-sm);
+}
+
+.code-block-inner {
+    background: var(--bg-dark-surface);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.code-block-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px var(--spacing-sm);
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    background: transparent;
+}
+
+.code-block-sep {
+    height: 1px;
+    background: var(--border-color);
+}
+
+.code-block-body {
+    display: flex;
+    background: transparent;
+    gap: var(--spacing-xs);
+    overflow: visible;
+    align-items: flex-start;
+}
+
+.code-block-lang {
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.code-block-inner .highlight,
+.code-block-inner pre {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: none;
+    overflow: visible;
+}
+
+.code-block-body pre,
+.code-block-body code {
+    border: none;
+    font-family: var(--font-family-mono);
+    font-size: var(--font-size-sm);
+    line-height: 1.6;
+}
+
+.code-block-lines {
+    width: 2.25em;
+    padding-right: var(--spacing-xs);
+    color: var(--text-dark);
+    flex-shrink: 0;
+}
+
+.code-block-lines pre {
+    margin: 0;
+    background: transparent;
+    border: none;
+    white-space: pre;
+    line-height: 1.6;
+}
+
+.code-block-content {
+    flex: 1;
+    overflow-x: auto;
+    padding-left: var(--spacing-sm);
+}
+
+.code-block-content pre {
+    margin: 0;
+    background: transparent;
+    border: none;
+    white-space: pre;
+    line-height: 1.6;
+}
+
+.linenodiv pre,
+.linenodiv a,
+.linenums a {
+    pointer-events: none;
+    color: var(--text-muted);
+    text-decoration: none;
+}
+
+.plotly-playground {
+    position: relative;
 }
 
 .menu-card .btn {
@@ -1014,7 +1308,7 @@ h3 {
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 920px) {
     .left-panel,
     .right-panel {
         width: 100%;
@@ -1034,7 +1328,7 @@ h3 {
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 920px) {
     .container {
         padding: 0 var(--spacing-md);
     }
@@ -1053,6 +1347,40 @@ h3 {
 
     h3 {
         font-size: var(--font-size-xl);
+    }
+
+    /* Hide navigation menu and GitHub button on tablets/phones */
+    .wiki-topbar-nav {
+        display: none;
+    }
+
+    .wiki-topbar-link {
+        display: none;
+    }
+
+    /* Adjust topbar for narrow screens */
+    .wiki-topbar-inner {
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+
+    /* Keep only logo and title visible */
+    .wiki-topbar-left-group {
+        gap: 0;
+    }
+
+    /* Hide left navigation panel on narrow screens */
+    .menu-column-nav {
+        display: none;
+    }
+
+    /* Make content column full width */
+    .menu-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Adjust main content padding */
+    body.menu > .container {
+        padding-top: calc(32px + var(--spacing-sm) * 2 + var(--spacing-xl));
     }
 }
 

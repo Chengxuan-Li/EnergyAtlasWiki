@@ -89,15 +89,19 @@
         .md-content a {
             color: var(--accent-color);
             text-decoration: none;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--border-radius-sm);
         }
 
         .md-content a:hover {
-            text-decoration: underline;
+            background: var(--accent-color);
+            color: var(--bg-dark-surface);
+            text-decoration: none;
         }
 
         .md-content code {
             background: var(--bg-dark-surface);
-            border: 1px solid var(--border-color);
+
             border-radius: var(--border-radius-sm);
             padding: 2px 6px;
             font-family: var(--font-family-mono);
@@ -107,10 +111,10 @@
 
         .md-content pre {
             background: var(--bg-dark-surface);
-            border: 1px solid var(--border-color);
+           
             border-radius: var(--border-radius);
             padding: var(--spacing-md);
-            overflow-x: auto;
+            overflow: visible;
             margin-bottom: var(--spacing-md);
         }
 
@@ -161,16 +165,19 @@
             font-size: var(--font-size-sm);
             font-weight: 500;
             font-variation-settings: 'wdth' 150, 'wght' 500;
-            padding: var(--spacing-xs) 0;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--border-radius-sm);
             line-height: 1.2;
         }
 
-        .wiki-nav-link:hover {
-            text-decoration: underline;
+        .wiki-nav-link:hover,
+        .wiki-nav-link.active {
+            background: var(--accent-color);
+            color: var(--bg-dark-surface);
+            text-decoration: none;
         }
 
         .wiki-nav-link.active {
-            color: var(--text-dark);
             font-weight: 600;
         }
 
@@ -197,15 +204,11 @@
 <body class="menu">
     <div class="wiki-topbar">
         <div class="wiki-topbar-inner">
-            <a class="wiki-topbar-left" href="{{ 'index.html' | url }}" aria-label="{{ config.site_name }}">
-                <img class="wiki-topbar-icon" src="{{ 'assets/images/icon.svg' | url }}" alt="EnergyAtlas app icon" />
-                <span class="wiki-topbar-title">{{ config.site_name }}</span>
-            </a>
-            <div class="wiki-topbar-center" role="search">
-                <input class="wiki-topbar-search" type="search" id="mkdocs-search-query" placeholder="Search documentation" aria-label="Search documentation" />
-                <div class="wiki-topbar-search-results" id="mkdocs-search-results" data-no-results-text="No results found"></div>
-            </div>
-            <div class="wiki-topbar-right">
+            <div class="wiki-topbar-left-group">
+                <a class="wiki-topbar-left" href="{{ 'index.html' | url }}" aria-label="{{ config.site_name }}">
+                    <img class="wiki-topbar-icon" src="{{ 'assets/images/icon.svg' | url }}" alt="EnergyAtlas Logo" />
+                    <span class="wiki-topbar-title">EnergyAtlas</span><span class="wiki-topbar-title-light"> Wiki</span>
+                </a>
                 {% if page and page.edit_url %}
                     <a class="wiki-topbar-link" href="{{ page.edit_url }}" target="_blank" rel="noopener">
                         <span class="wiki-topbar-link-icon" aria-hidden="true">
@@ -226,6 +229,16 @@
                     </a>
                 {% endif %}
             </div>
+            <nav class="wiki-topbar-nav" role="navigation" aria-label="Main navigation">
+                <ul class="wiki-topbar-nav-list">
+                    <li><a class="wiki-topbar-nav-link" href="{{ 'index.html' | url }}">Home</a></li>
+                    <li><a class="wiki-topbar-nav-link" href="{{ 'getting-started/welcome/' | url }}">Install</a></li>
+                    <li><a class="wiki-topbar-nav-link" href="{{ 'references/workflows/' | url }}">Case Study</a></li>
+                    <li><a class="wiki-topbar-nav-link" href="{{ 'references/workflows/' | url }}">References</a></li>
+                    <li><a class="wiki-topbar-nav-link" href="{{ 'technical-references/technical-references/' | url }}">Tutorial</a></li>
+                    <li><a class="wiki-topbar-nav-link" href="{{ 'resources/faq/' | url }}">FAQ</a></li>
+                </ul>
+            </nav>
         </div>
     </div>
     <div class="container">
@@ -282,7 +295,7 @@
                     {% endif %}
                 </aside>
 
-                <main class="menu-column menu-column-content">
+                <main class="menu-column menu-column-content" id="main-content">
                     {% block content %}
                         {{ page.content }}
                     {% endblock %}
@@ -290,7 +303,9 @@
             </div>
         </div>
     </div>
-    <script src="{{ 'search/main.js' | url }}" defer></script>
+    <div class="scroll-progress-bar">
+        <div class="scroll-progress-fill" id="scroll-progress"></div>
+    </div>
     {% if config.extra_javascript %}
         {% for path in config.extra_javascript %}
             <script src="{{ path | url }}" defer></script>
@@ -319,6 +334,235 @@
                     link.setAttribute('rel', 'noopener noreferrer');
                 }
             });
+
+            function getLanguageLabel(element) {
+                // Check for data-language attribute
+                if (element.dataset && element.dataset.language) {
+                    return element.dataset.language;
+                }
+                
+                // Check highlight wrapper for language class (Pygments format: highlight-<lang>)
+                var highlight = element.classList && element.classList.contains('highlight') ? element : element.closest('.highlight');
+                if (highlight) {
+                    var highlightClasses = highlight.className || '';
+                    var match = highlightClasses.match(/highlight-([a-z0-9_-]+)/i);
+                    if (match && match[1]) {
+                        return match[1];
+                    }
+                }
+                
+                // Check element's own classes
+                var elementClasses = element.className || '';
+                var match = elementClasses.match(/language-([a-z0-9_-]+)/i);
+                if (match && match[1]) {
+                    return match[1];
+                }
+                
+                // If element is code block, check parent pre
+                if (element.tagName === 'CODE') {
+                    var pre = element.parentElement;
+                    if (pre) {
+                        var preClasses = pre.className || '';
+                        match = preClasses.match(/language-([a-z0-9_-]+)/i);
+                        if (match && match[1]) {
+                            return match[1];
+                        }
+                    }
+                }
+                
+                // Check for common language aliases in class names
+                var allClasses = elementClasses + (highlight ? (' ' + highlight.className) : '');
+                match = allClasses.match(/\b(python|py|javascript|js|json|yaml|yml|bash|sh|shell|html|css|markdown|md|text|plain|java|cpp|c\+\+|c|go|rust|php|ruby|swift|kotlin|typescript|ts|jsx|tsx|sql|r|matlab|scala|perl|xml|svg|diff|ini|toml|makefile|dockerfile|docker|nginx|apache|conf|config|log|zsh|fish|powershell|ps1|bat|cmd)\b/i);
+                if (match && match[1]) {
+                    var lang = match[1].toLowerCase();
+                    // Normalize aliases
+                    if (lang === 'py') return 'python';
+                    if (lang === 'js') return 'javascript';
+                    if (lang === 'yml') return 'yaml';
+                    if (lang === 'sh') return 'bash';
+                    if (lang === 'md') return 'markdown';
+                    if (lang === 'ts') return 'typescript';
+                    return lang;
+                }
+                
+                return 'text';
+            }
+
+            function attachCopyButtons() {
+                var blocks = document.querySelectorAll('.md-content pre > code');
+                blocks.forEach(function(codeBlock) {
+                    var pre = codeBlock.parentElement;
+                    if (!pre || pre.closest('.code-block-container')) {
+                        return;
+                    }
+
+                    // Get language from the highlight wrapper or code block
+                    var highlight = pre.closest('.highlight');
+                    var languageLabel = highlight ? getLanguageLabel(highlight) : getLanguageLabel(codeBlock);
+
+                    var container = document.createElement('div');
+                    container.className = 'code-block-container';
+
+                    var inner = document.createElement('div');
+                    inner.className = 'code-block-inner';
+
+                    var header = document.createElement('div');
+                    header.className = 'code-block-header';
+
+                    var label = document.createElement('span');
+                    label.className = 'code-block-lang';
+                    label.textContent = languageLabel;
+
+                    var button = document.createElement('button');
+                    button.type = 'button';
+                    button.className = 'copy-button';
+                    button.textContent = 'Copy';
+
+                    header.appendChild(label);
+                    header.appendChild(button);
+
+                    var separator = document.createElement('div');
+                    separator.className = 'code-block-sep';
+
+                    var body = document.createElement('div');
+                    body.className = 'code-block-body';
+
+                    button.addEventListener('click', function() {
+                        var text = codeBlock.textContent || '';
+                        if (navigator.clipboard && navigator.clipboard.writeText) {
+                            navigator.clipboard.writeText(text);
+                        } else {
+                            var textarea = document.createElement('textarea');
+                            textarea.value = text;
+                            document.body.appendChild(textarea);
+                            textarea.select();
+                            document.execCommand('copy');
+                            document.body.removeChild(textarea);
+                        }
+                        button.textContent = 'Copied';
+                        setTimeout(function() {
+                            button.textContent = 'Copy';
+                        }, 5000);
+                    });
+
+                    var highlight = pre.closest('.highlight') || pre;
+                    highlight.parentNode.insertBefore(container, highlight);
+                    container.appendChild(inner);
+                    inner.appendChild(header);
+                    inner.appendChild(separator);
+                    inner.appendChild(body);
+                    var highlightTable = highlight.querySelector('.highlighttable');
+                    if (highlightTable) {
+                        var linenosPre = highlightTable.querySelector('td.linenos pre');
+                        var codePre = highlightTable.querySelector('td.code pre');
+
+                        var linesWrap = document.createElement('div');
+                        linesWrap.className = 'code-block-lines';
+
+                        var codeWrap = document.createElement('div');
+                        codeWrap.className = 'code-block-content';
+
+                        if (linenosPre) {
+                            linesWrap.appendChild(linenosPre);
+                        }
+                        if (codePre) {
+                            codeWrap.appendChild(codePre);
+                        }
+
+                        body.appendChild(linesWrap);
+                        body.appendChild(codeWrap);
+                        highlight.remove();
+                    } else {
+                        body.appendChild(highlight);
+                    }
+                });
+
+                var playgrounds = document.querySelectorAll('[data-plotly-playground]');
+                playgrounds.forEach(function(playground) {
+                    var copyButton = playground.querySelector('.plotly-playground-copy');
+                    var editor = playground.querySelector('textarea');
+                    if (!copyButton || !editor || copyButton.dataset.bound) {
+                        return;
+                    }
+
+                    copyButton.addEventListener('click', function() {
+                        var text = editor.value || '';
+                        if (navigator.clipboard && navigator.clipboard.writeText) {
+                            navigator.clipboard.writeText(text);
+                        } else {
+                            var textarea = document.createElement('textarea');
+                            textarea.value = text;
+                            document.body.appendChild(textarea);
+                            textarea.select();
+                            document.execCommand('copy');
+                            document.body.removeChild(textarea);
+                        }
+                        copyButton.textContent = 'Copied';
+                        setTimeout(function() {
+                            copyButton.textContent = 'Copy';
+                        }, 5000);
+                    });
+
+                    copyButton.dataset.bound = 'true';
+                });
+            }
+
+            attachCopyButtons();
+
+            // Page transition animation for right pane
+            var contentColumn = document.getElementById('main-content');
+            if (contentColumn) {
+                // Fade in on page load
+                contentColumn.style.opacity = '0';
+                setTimeout(function() {
+                    contentColumn.style.opacity = '1';
+                    contentColumn.style.transition = 'opacity 0.3s ease-in';
+                }, 50);
+
+                // Fade out on navigation (internal links only)
+                var navLinks = document.querySelectorAll('.menu-link, .wiki-nav-link, .md-content a');
+                navLinks.forEach(function(link) {
+                    link.addEventListener('click', function(e) {
+                        var href = this.getAttribute('href');
+                        // Only animate for internal page navigation (not anchors, external, or special links)
+                        if (href && 
+                            !href.startsWith('#') && 
+                            !href.startsWith('http://') && 
+                            !href.startsWith('https://') && 
+                            !href.startsWith('mailto:') && 
+                            !href.startsWith('tel:') &&
+                            !this.hasAttribute('target')) {
+                            
+                            // Small delay to allow navigation
+                            setTimeout(function() {
+                                contentColumn.style.opacity = '0';
+                                contentColumn.style.transition = 'opacity 0.2s ease-out';
+                            }, 10);
+                        }
+                    });
+                });
+            }
+
+            // Scroll progress bar
+            var scrollProgress = document.getElementById('scroll-progress');
+            if (scrollProgress) {
+                function updateScrollProgress() {
+                    var windowHeight = window.innerHeight;
+                    var documentHeight = document.documentElement.scrollHeight;
+                    var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    var scrollableHeight = documentHeight - windowHeight;
+                    var scrolled = scrollTop / scrollableHeight;
+                    var percentage = Math.min(100, Math.max(0, scrolled * 100));
+                    scrollProgress.style.width = percentage + '%';
+                }
+
+                // Update on scroll
+                window.addEventListener('scroll', updateScrollProgress);
+                // Update on page load
+                updateScrollProgress();
+                // Update on resize
+                window.addEventListener('resize', updateScrollProgress);
+            }
         });
     </script>
 </body>
