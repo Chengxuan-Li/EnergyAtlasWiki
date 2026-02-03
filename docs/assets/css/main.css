@@ -84,7 +84,9 @@ html {
 
 /* Page transition animations */
 .menu-column-content {
-    animation: fadeIn 0.3s ease-in-out;
+    /* Animation disabled - handled by JavaScript for better back button support */
+    /* animation: fadeIn 0.3s ease-in-out; */
+    opacity: 1; /* Ensure visible by default */
 }
 
 @keyframes fadeIn {
