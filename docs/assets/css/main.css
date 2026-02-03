@@ -887,6 +887,10 @@ body.menu > .status-bar {
     padding: var(--spacing-sm);
     border-radius: var(--border-radius);
     margin-bottom: var(--spacing-sm);
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .code-block-inner {
@@ -896,6 +900,9 @@ body.menu > .status-bar {
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .code-block-header {
@@ -919,6 +926,9 @@ body.menu > .status-bar {
     gap: var(--spacing-xs);
     overflow: visible;
     align-items: flex-start;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .code-block-lang {
@@ -933,6 +943,9 @@ body.menu > .status-bar {
     background: transparent;
     border: none;
     overflow: visible;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .code-block-body pre,
@@ -941,6 +954,8 @@ body.menu > .status-bar {
     font-family: var(--font-family-mono);
     font-size: var(--font-size-sm);
     line-height: 1.6;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .code-block-lines {
@@ -962,6 +977,9 @@ body.menu > .status-bar {
     flex: 1;
     overflow-x: auto;
     padding-left: var(--spacing-sm);
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .code-block-content pre {
@@ -970,6 +988,10 @@ body.menu > .status-bar {
     border: none;
     white-space: pre;
     line-height: 1.6;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: auto;
 }
 
 .linenodiv pre,
@@ -1331,6 +1353,9 @@ h3 {
 @media (max-width: 920px) {
     .container {
         padding: 0 var(--spacing-md);
+        max-width: 100% !important;
+        width: 100% !important;
+        box-sizing: border-box;
     }
 
     .app-title {
@@ -1361,6 +1386,9 @@ h3 {
     /* Adjust topbar for narrow screens */
     .wiki-topbar-inner {
         padding: var(--spacing-sm) var(--spacing-md);
+        max-width: 100% !important;
+        width: 100% !important;
+        box-sizing: border-box;
     }
 
     /* Keep only logo and title visible */
@@ -1382,6 +1410,59 @@ h3 {
     body.menu > .container {
         padding-top: calc(32px + var(--spacing-sm) * 2 + var(--spacing-xl));
     }
+
+    /* Ensure code blocks resize properly on mobile */
+    .code-block-container,
+    .code-block-inner,
+    .code-block-body,
+    .code-block-content,
+    .code-block-content pre,
+    .code-block-body table,
+    .code-block-body table td,
+    .code-block-body table td pre,
+    .code-block-body table td code {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box;
+    }
+
+    .md-content {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box;
+    }
+
+    .menu-column-content {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box;
+    }
+
+    /* Fix table-based code block layouts */
+    .highlighttable {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        table-layout: auto !important;
+    }
+
+    .highlighttable td {
+        width: auto !important;
+        max-width: 100% !important;
+    }
+
+    .highlighttable td.linenos {
+        width: auto !important;
+        min-width: 0 !important;
+    }
+
+    .highlighttable td.code {
+        width: auto !important;
+        min-width: 0 !important;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1395,5 +1476,57 @@ h3 {
 
     h3 {
         font-size: var(--font-size-lg);
+    }
+
+    /* Ensure code blocks resize properly on small mobile */
+    .code-block-container,
+    .code-block-inner,
+    .code-block-body,
+    .code-block-content,
+    .code-block-content pre,
+    .code-block-body table,
+    .code-block-body table td,
+    .code-block-body table td pre,
+    .code-block-body table td code {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box;
+    }
+
+    .md-content {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box;
+    }
+
+    .menu-column-content {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box;
+    }
+
+    .highlighttable {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        table-layout: auto !important;
+    }
+
+    .highlighttable td {
+        width: auto !important;
+        max-width: 100% !important;
+    }
+
+    .highlighttable td.linenos {
+        width: auto !important;
+        min-width: 0 !important;
+    }
+
+    .highlighttable td.code {
+        width: auto !important;
+        min-width: 0 !important;
     }
 }

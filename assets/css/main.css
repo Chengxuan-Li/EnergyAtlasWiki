@@ -887,6 +887,10 @@ body.menu > .status-bar {
     padding: var(--spacing-sm);
     border-radius: var(--border-radius);
     margin-bottom: var(--spacing-sm);
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .code-block-inner {
@@ -896,6 +900,9 @@ body.menu > .status-bar {
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .code-block-header {
@@ -919,6 +926,9 @@ body.menu > .status-bar {
     gap: var(--spacing-xs);
     overflow: visible;
     align-items: flex-start;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .code-block-lang {
@@ -933,6 +943,9 @@ body.menu > .status-bar {
     background: transparent;
     border: none;
     overflow: visible;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .code-block-body pre,
@@ -941,6 +954,8 @@ body.menu > .status-bar {
     font-family: var(--font-family-mono);
     font-size: var(--font-size-sm);
     line-height: 1.6;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .code-block-lines {
@@ -962,6 +977,9 @@ body.menu > .status-bar {
     flex: 1;
     overflow-x: auto;
     padding-left: var(--spacing-sm);
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .code-block-content pre {
@@ -970,6 +988,10 @@ body.menu > .status-bar {
     border: none;
     white-space: pre;
     line-height: 1.6;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: auto;
 }
 
 .linenodiv pre,
