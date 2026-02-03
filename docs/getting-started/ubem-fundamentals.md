@@ -46,8 +46,26 @@ EnergyAtlas supports multiple simulation approaches:
 3. **Document Assumptions**: Keep track of modeling assumptions and data sources
 4. **Iterate**: Refine models based on validation results
 
-## References
+## Next Steps
 
-- [Urban Data Integration](../references/workflows/urban-data-integration.md)
-- [Template Definition and Assignment](../references/workflows/template-definition-assignment.md)
-- [Archetype Library](../resources/archetype-library.md)
+Now that you understand UBEM fundamentals:
+
+- **[Build Your First UBEM](first-ubem.md)** - Step-by-step tutorial
+- **[UBEM Wiki](../ubem-wiki/ubem-wiki.md)** - Comprehensive UBEM guide
+- **[Workflows Guide](../references/workflows.md)** - Learn EnergyAtlas workflows
+
+## Related Documentation
+
+### Workflows
+- [Urban Data Integration](../references/workflows/urban-data-integration.md) - Import and process building data
+- [Template Definition and Assignment](../references/workflows/template-definition-assignment.md) - Create and assign archetypes
+- [Running and Calibrating](../references/workflows/running-calibrating.md) - Execute simulations
+
+### Resources
+- [Archetype Library](../resources/archetype-library.md) - Pre-built building archetypes
+- [EnergyAtlas Library](../resources/energyatlas-library.md) - All library resources
+- [Technical References](../technical-references/technical-references.md) - Advanced documentation
+
+---
+
+*Last updated: {{ version }}*

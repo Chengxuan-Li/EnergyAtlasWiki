@@ -177,6 +177,8 @@ $$
 3. Reference in markdown: `![Alt text](assets/images/image.png)`
 4. Add sizing classes if needed: `{.medium}`
 
+**See**: [Image Guide](image-guide.md) for detailed image usage instructions.
+
 ### Image Best Practices
 
 - **Optimize**: Compress images for web
@@ -184,6 +186,22 @@ $$
 - **Appropriate size**: Use sizing classes
 - **Consistent style**: Maintain visual consistency
 - **Relevant**: Images should support content
+
+### When to Use Charts vs Images
+
+- **Use Plotly charts** for:
+  - Data visualization
+  - Interactive exploration
+  - Dynamic data updates
+  - Multiple series comparisons
+
+- **Use static images** for:
+  - Screenshots
+  - Diagrams
+  - Photos
+  - Static illustrations
+
+**See**: [Plotting Guide](plotting-guide.md) for creating charts.
 
 ## Formatting Guidelines
 
@@ -258,11 +276,53 @@ $$
 3. Update link
 4. Verify link works
 
+## Adding Charts and Plots
+
+### Plotly Charts
+
+EnergyAtlas Wiki supports interactive Plotly charts for data visualization.
+
+**Quick Start**:
+- **[Plotting Guide](plotting-guide.md)** - Complete guide to creating charts
+- **[Plotting Playground](plotting-playground.md)** - Interactive testing environment
+
+### Basic Usage
+
+Use Plotly JSON format in code blocks:
+
+````markdown
+```plotly
+{
+  "data": [{
+    "type": "scatter",
+    "mode": "lines+markers",
+    "x": [1, 2, 3, 4],
+    "y": [10, 15, 13, 17]
+  }],
+  "layout": {
+    "title": "Example Chart"
+  }
+}
+```
+````
+
+### Chart Types
+
+Supported chart types include:
+- Line charts (multi-series)
+- Bar charts (stacked, grouped)
+- Pie and donut charts
+- Scatter plots
+
+**See**: [Plotting Guide](plotting-guide.md) for detailed examples and customization options.
+
 ## Resources
 
 ### Documentation
 
 - [Image Guide](image-guide.md) - Image usage guide
+- [Plotting Guide](plotting-guide.md) - Creating interactive charts and plots
+- [Plotting Playground](plotting-playground.md) - Test and experiment with charts
 - [MkDocs Documentation](https://www.mkdocs.org/) - MkDocs reference
 - [Markdown Guide](https://www.markdownguide.org/) - Markdown syntax
 
@@ -310,5 +370,7 @@ $$
 ## References
 
 - [Image Guide](image-guide.md) - Image usage and styling
+- [Plotting Guide](plotting-guide.md) - Creating interactive charts and visualizations
+- [Plotting Playground](plotting-playground.md) - Interactive chart testing environment
 - [MkDocs User Guide](https://www.mkdocs.org/user-guide/) - MkDocs documentation
 - [Markdown Cheat Sheet](https://www.markdownguide.org/cheat-sheet/) - Quick reference

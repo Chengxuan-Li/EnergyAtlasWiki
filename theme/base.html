@@ -28,7 +28,7 @@
         }
 
         .wiki-grid {
-            grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+            grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
         }
 
         .wiki-breadcrumbs {
@@ -232,10 +232,11 @@
             <nav class="wiki-topbar-nav" role="navigation" aria-label="Main navigation">
                 <ul class="wiki-topbar-nav-list">
                     <li><a class="wiki-topbar-nav-link" href="{{ 'index.html' | url }}">Home</a></li>
-                    <li><a class="wiki-topbar-nav-link" href="{{ 'getting-started/welcome/' | url }}">Install</a></li>
-                    <li><a class="wiki-topbar-nav-link" href="{{ 'references/workflows/' | url }}">Case Study</a></li>
+                    <li><a class="wiki-topbar-nav-link" href="{{ 'getting-started/installation/' | url }}">Install</a></li>
+                    <li><a class="wiki-topbar-nav-link" href="{{ 'ubem-wiki/ubem-wiki/' | url }}">UBEM</a></li>
                     <li><a class="wiki-topbar-nav-link" href="{{ 'references/workflows/' | url }}">References</a></li>
-                    <li><a class="wiki-topbar-nav-link" href="{{ 'technical-references/technical-references/' | url }}">Tutorial</a></li>
+                    <li><a class="wiki-topbar-nav-link" href="{{ 'resources/user-stories/' | url }}">User Stories</a></li>
+                    <li><a class="wiki-topbar-nav-link" href="{{ 'resources/energyatlas-library/' | url }}">Library</a></li>
                     <li><a class="wiki-topbar-nav-link" href="{{ 'resources/faq/' | url }}">FAQ</a></li>
                 </ul>
             </nav>
@@ -300,6 +301,40 @@
                         {{ page.content }}
                     {% endblock %}
                 </main>
+
+                <aside class="menu-column menu-column-toc">
+                    <nav class="toc-nav" id="toc-nav">
+                        {% if page.toc %}
+                            <ul class="toc-list">
+                                {% for item in page.toc %}
+                                    <li class="toc-item toc-level-{{ item.level }}">
+                                        <a href="{{ item.url }}" class="toc-link">{{ item.title }}</a>
+                                        {% if item.children %}
+                                            <ul class="toc-sublist">
+                                                {% for subitem in item.children %}
+                                                    <li class="toc-item toc-level-{{ subitem.level }}">
+                                                        <a href="{{ subitem.url }}" class="toc-link">{{ subitem.title }}</a>
+                                                        {% if subitem.children %}
+                                                            <ul class="toc-sublist">
+                                                                {% for subsubitem in subitem.children %}
+                                                                    <li class="toc-item toc-level-{{ subsubitem.level }}">
+                                                                        <a href="{{ subsubitem.url }}" class="toc-link">{{ subsubitem.title }}</a>
+                                                                    </li>
+                                                                {% endfor %}
+                                                            </ul>
+                                                        {% endif %}
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p class="toc-empty">No headings available</p>
+                        {% endif %}
+                    </nav>
+                </aside>
             </div>
         </div>
     </div>
@@ -574,8 +609,12 @@
                 navLinks.forEach(function(link) {
                     link.addEventListener('click', function(e) {
                         var href = this.getAttribute('href');
-                        // Only animate for internal page navigation
+                        // Don't fade out if modifier keys are pressed (shift-click, ctrl-click, cmd-click = new tab)
+                        var isModifierPressed = e.shiftKey || e.ctrlKey || e.metaKey || e.altKey;
+                        
+                        // Only animate for internal page navigation (not new tabs, anchors, external, or special links)
                         if (href && 
+                            !isModifierPressed &&
                             !href.startsWith('#') && 
                             !href.startsWith('http://') && 
                             !href.startsWith('https://') && 
@@ -609,6 +648,46 @@
                 updateScrollProgress();
                 // Update on resize
                 window.addEventListener('resize', updateScrollProgress);
+            }
+
+            // TOC active item highlighting
+            var tocNav = document.getElementById('toc-nav');
+            if (tocNav) {
+                var tocLinks = tocNav.querySelectorAll('.toc-link');
+                var headings = Array.from(document.querySelectorAll('.md-content h1, .md-content h2, .md-content h3, .md-content h4, .md-content h5, .md-content h6'));
+
+                function updateActiveTOC() {
+                    var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    var offset = 150; // Offset for topbar
+                    
+                    // Find the current heading
+                    var currentHeading = null;
+                    for (var i = headings.length - 1; i >= 0; i--) {
+                        var heading = headings[i];
+                        var headingTop = heading.getBoundingClientRect().top + scrollTop;
+                        if (headingTop <= scrollTop + offset) {
+                            currentHeading = heading;
+                            break;
+                        }
+                    }
+
+                    // Update active state
+                    tocLinks.forEach(function(link) {
+                        link.classList.remove('active');
+                        var href = link.getAttribute('href');
+                        if (currentHeading && href) {
+                            var headingId = href.substring(1);
+                            if (currentHeading.id === headingId) {
+                                link.classList.add('active');
+                            }
+                        }
+                    });
+                }
+
+                // Update on scroll
+                window.addEventListener('scroll', updateActiveTOC);
+                // Update on page load
+                updateActiveTOC();
             }
         });
     </script>

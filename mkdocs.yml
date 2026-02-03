@@ -12,39 +12,20 @@ theme:
 
 nav:
   - Quick Start:
-    - New to Energy Atlas: getting-started/welcome.md
-    - UBEM Fundamentals: getting-started/ubem-fundamentals.md
-    
-  - Energy Atlas References:
-    - Data Preparation: references/data-prep.md
+    - New to Energy Atlas: index.md
+    - New to UBEM: getting-started/ubem-fundamentals.md
+    - UBEM Wiki: ubem-wiki/ubem-wiki.md
+
+  - EnergyAtlas References:
     - Input Output Guide: references/input-output.md
-    - Workflows: references/workflows.md
-      # - Workflows Guide: references/workflows.md
-      # - Urban Data Integration: references/workflows/urban-data-integration.md
-      # - Template Definition and Assignment: references/workflows/template-definition-assignment.md
-      # - Running and Calibrating: references/workflows/running-calibrating.md
-      # - Scenario Design and Simulation: references/workflows/scenario-design-simulation.md
-      # - Results View: references/workflows/results-view.md
-    - Energy Atlas Objects: references/energy-atlas-objects.md
-      # - Energy Atlas Objects Overview: references/energy-atlas-objects.md
-      # - Datahub: references/objects/datahub.md
-      # - Archetype: references/objects/archetype.md
-      # - Archetype Assignment Rule: references/objects/archetype-assignment-rule.md
-      # - Geospatial Data: references/objects/geospatial-data.md
-      # - Weather File: references/objects/weather-file.md
-      # - Retrofit Measure: references/objects/retrofit-measure.md
-      # - Scenario: references/objects/scenario.md
+    - Workflows Guide: references/workflows.md
+    - Objects Guide: references/energy-atlas-objects.md
+
   - Resources:
-    - Resource Library: resources/resource-library.md
-    # - Archetype Library: resources/archetype-library.md
-    # - Weather Library: resources/weather-library.md
-    # - Retrofit Measures Library: resources/retrofit-measures-library.md
-    - Technical References: technical-references/technical-references.md
+    - User Stories: resources/user-stories.md
+    - EnergyAtlas Library: resources/energyatlas-library.md
     - FAQ: resources/faq.md
     - Wiki Guide: wiki-guide/wiki-guide.md
-    - Plotting Guide: wiki-guide/plotting-guide.md
-    - Plotting Playground: wiki-guide/plotting-playground.md
-    # - Wiki Image Guide: wiki-guide/image-guide.md
 
 markdown_extensions:
   - attr_list
