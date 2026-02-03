@@ -15,175 +15,53 @@ Before starting, ensure you have:
 - Data quality checked and cleaned
 - Access to EnergyAtlas platform
 
-## Step 1: Prepare Your Data
+## Step 1: Initialize Building Downloader
 
-### Data Format
+![Step 1 browse the map for data](../../assets/images/urban-data-integration-step-1.png){.full-width}
 
-Choose an appropriate format:
+Building pmtiles preview will be available if you click on the Buildings layer's eye icon once. These geometries indicate the density of building data availability. Empty regions indicate lower built-up density.
 
-- **GeoJSON**: Best for geospatial data with complex geometries
-- **CSV**: Simple tabular data with coordinates
-- **Shapefile**: Standard GIS format
+## Step 2: Zoom in to Area of Interest
+![Step 2a zoom in to selected area](../../assets/images/urban-data-integration-step-2a.png){.full-width}
 
-### Required Fields
+When zoomed in to a location or region of your choice, building geometries will appear at a closer zoom level. You may also turn on other layers to preview all data available for the given area. For example:
 
-Verify your data includes:
+![Step 2b optional layers to turn on](../../assets/images/urban-data-integration-step-2b.png){.full-width}
 
-- `building_id`: Unique identifier
-- Location data: Either coordinates (lat/lon) or geometry
-- `building_type`: Building classification
-- `year_built`: Construction year
+We recommend you leave at least the 2 layers on:
 
-### Data Quality
+- Buildings
+- Places (POIs)
 
-Perform quality checks:
+They are crucial for EnergyAtlas to infer building type- and use-related information. Below is an example:
 
-- No duplicate building IDs
-- Valid coordinates or geometries
-- Consistent building type values
-- Reasonable year built values
-- Complete required fields
+![Step 2c only building and poi layers](../../assets/images/urban-data-integration-step-2c.png){.full-width}
 
-## Step 2: Access Data Import
 
-1. Log into EnergyAtlas
-2. Navigate to **Datahub** section
-3. Click **Import Data** or **Add Data**
-4. Select **Building Data** import type
+## Step 3: Select Download Area
 
-## Step 3: Upload Data File
+Use the selection tool at the bottom of the interface, you will be able to specify an area of interest on the map. There are 2 modes available:
 
-1. Click **Choose File** or drag-and-drop file
-2. Select your prepared data file
-3. Wait for upload to complete
-4. Verify file appears in upload list
+- Selection by rectange: you will be prompted to draw a rectangle and all buildings that `touch` the selection rectangle will be selected. This is a faster way of making building selection.
+- Selection by hand-drawn polygon: you will be prompted to draw a polygon by clicking on all the vertices of the polygon in order. All buildings that `touch` the selection polygon will be selected. When you are finished with your selection, simply click `Complete Polygon` button to finalize your selection.
 
-## Step 4: Configure Import Settings
+If successful, you will get this interface:
 
-### Field Mapping
+![Step 3a choose download area](../../assets/images/urban-data-integration-step-3a.png){.full-width}
 
-Map your data fields to EnergyAtlas fields:
+On the right panel you will be prompted with 2 options:
 
-- Match `building_id` field
-- Map location fields (lat/lon or geometry)
-- Map `building_type` field
-- Map `year_built` field
-- Map optional fields (floor_area, num_floors, etc.)
+- Download & Save to [Datahub](../objects/datahub.md)
+- Download Only (GeoJSON): this will trigger a browser download and save a local `.geojson` file that contains selected features contained in all visible layers. You will easily be able to open and preview it with [QGIS](https://qgis.org/).
 
-### Import Options
+![Step 3b successful download](../../assets/images/urban-data-integration-step-3b.png){.full-width}
 
-Configure import behavior:
+If you have successfully downloaded the features and saved to [Datahub](../objects/datahub.md), you will find a new entry matching the name you specified in Entry Name field (or the default name) in the [Datahub](../objects/datahub.md) tab, which is accessible from the bottom-right corner of the page.
 
-- **Duplicate handling**: Skip, update, or create new
-- **Validation level**: Strict or lenient
-- **Default values**: For missing optional fields
-- **Coordinate system**: Specify CRS if needed
+## Step 4: (Optional) Preview Your Geospatial Data
 
-## Step 5: Preview Data
+The [Spatial Data Preview Tool](spatial-data-preview.md) could help you peek the dataset you just downloaded. Visit [Spatial Data Preview Tool](spatial-data-preview.md) for more instructions.
 
-1. Review data preview table
-2. Check sample records
-3. Verify field mappings are correct
-4. Identify any issues or warnings
-
-## Step 6: Validate Data
-
-Run validation checks:
-
-- **Completeness**: All required fields present
-- **Format**: Values match expected formats
-- **Ranges**: Numeric values within reasonable ranges
-- **Spatial**: Valid geometries or coordinates
-- **Consistency**: No conflicting values
-
-### Address Validation Issues
-
-If validation finds issues:
-
-1. Review error messages
-2. Fix issues in source data if possible
-3. Adjust import settings if appropriate
-4. Re-validate after fixes
-
-## Step 7: Complete Import
-
-1. Review import summary
-2. Confirm number of buildings to import
-3. Click **Import** or **Confirm Import**
-4. Wait for import to complete
-5. Review import results
-
-## Step 8: Verify Imported Data
-
-### Check Datahub
-
-1. Navigate to **Datahub**
-2. Locate imported dataset
-3. Verify building count matches expected
-4. Review sample records
-
-### Visual Inspection
-
-1. Open map view
-2. Verify buildings appear in correct locations
-3. Check for spatial issues
-4. Identify any missing or misplaced buildings
-
-## Step 9: Link Additional Data (Optional)
-
-### Weather Data
-
-1. Import or select weather file
-2. Link weather data to project
-3. Verify weather data covers project area
-
-### Other Datasets
-
-- Link energy consumption data for calibration
-- Add building attribute data
-- Import retrofit measure definitions
-
-## Common Issues and Solutions
-
-### Issue: Import Fails
-
-**Solutions**:
-- Check file format matches specification
-- Verify all required fields are present
-- Check file size limits
-- Review error messages for specific issues
-
-### Issue: Missing Buildings
-
-**Solutions**:
-- Check for duplicate building IDs
-- Verify coordinate ranges are valid
-- Check for invalid geometries
-- Review import logs for skipped records
-
-### Issue: Incorrect Locations
-
-**Solutions**:
-- Verify coordinate system (CRS)
-- Check for coordinate order (lat/lon vs lon/lat)
-- Validate coordinate ranges
-- Review geometry validity
-
-### Issue: Field Mapping Errors
-
-**Solutions**:
-- Verify field names match exactly
-- Check for case sensitivity
-- Review data preview for actual field names
-- Adjust field mappings
-
-## Best Practices
-
-1. **Prepare data thoroughly**: Clean data before import saves time
-2. **Validate early**: Check data quality before processing
-3. **Document sources**: Keep track of data sources and assumptions
-4. **Backup originals**: Keep original data files before import
-5. **Test with sample**: Import small sample first to verify process
 
 ## Next Steps
 
