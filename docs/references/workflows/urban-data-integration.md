@@ -3,17 +3,10 @@
 Step-by-step workflow for importing and integrating urban building data into EnergyAtlas.
 
 ## Overview
+![Urban data integration workflow diagram](../../assets/images/urban-data-integration-diagram.png){.full-width}
 
 Urban data integration is the first step in any EnergyAtlas project. This workflow guides you through importing building data, validating it, and preparing it for archetype assignment and simulation.
 
-## Prerequisites
-
-Before starting, ensure you have:
-
-- Building data in a supported format (GeoJSON, CSV, or Shapefile)
-- Required fields populated (building_id, location, building_type, year_built)
-- Data quality checked and cleaned
-- Access to EnergyAtlas platform
 
 ## Step 1: Initialize Building Downloader
 
