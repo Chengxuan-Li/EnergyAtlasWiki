@@ -380,57 +380,44 @@
                 }
             });
 
+            var langAliases = {py:'python',js:'javascript',yml:'yaml',sh:'bash',md:'markdown',ts:'typescript',ps1:'powershell'};
+            var langDisplay = {python:'Python',javascript:'JavaScript',typescript:'TypeScript',csharp:'C#',
+                'c++':'C++',cpp:'C++',json:'JSON',yaml:'YAML',html:'HTML',css:'CSS',xml:'XML',svg:'SVG',
+                sql:'SQL',bash:'Bash',shell:'Shell',markdown:'Markdown',plaintext:'Text',text:'Text',
+                java:'Java',go:'Go',rust:'Rust',php:'PHP',ruby:'Ruby',swift:'Swift',kotlin:'Kotlin',
+                r:'R',matlab:'MATLAB',scala:'Scala',perl:'Perl',powershell:'PowerShell',
+                dockerfile:'Dockerfile',docker:'Docker',ini:'INI',toml:'TOML',diff:'Diff'};
+
+            function resolveLanguage(lang) {
+                lang = lang.toLowerCase();
+                return langAliases[lang] || lang;
+            }
+
+            function displayLanguage(lang) {
+                return langDisplay[lang] || lang;
+            }
+
             function getLanguageLabel(element) {
-                // Check for data-language attribute
                 if (element.dataset && element.dataset.language) {
-                    return element.dataset.language;
+                    return displayLanguage(resolveLanguage(element.dataset.language));
                 }
-                
-                // Check highlight wrapper for language class (Pygments format: highlight-<lang>)
-                var highlight = element.classList && element.classList.contains('highlight') ? element : element.closest('.highlight');
-                if (highlight) {
-                    var highlightClasses = highlight.className || '';
-                    var match = highlightClasses.match(/highlight-([a-z0-9_-]+)/i);
-                    if (match && match[1]) {
-                        return match[1];
-                    }
+
+                var candidates = [element];
+                var code = element.querySelector && element.querySelector('code[class*="language-"]');
+                if (code) candidates.unshift(code);
+                var pre = element.querySelector && element.querySelector('pre[class*="language-"]');
+                if (pre) candidates.unshift(pre);
+                if (element.tagName === 'CODE' && element.parentElement) candidates.push(element.parentElement);
+                var highlight = element.closest ? element.closest('.highlight') : null;
+                if (highlight) candidates.push(highlight);
+
+                for (var i = 0; i < candidates.length; i++) {
+                    var cls = (candidates[i].className || '');
+                    var m = cls.match(/language-([a-z0-9_+#-]+)/i);
+                    if (m && m[1]) return displayLanguage(resolveLanguage(m[1]));
                 }
-                
-                // Check element's own classes
-                var elementClasses = element.className || '';
-                var match = elementClasses.match(/language-([a-z0-9_-]+)/i);
-                if (match && match[1]) {
-                    return match[1];
-                }
-                
-                // If element is code block, check parent pre
-                if (element.tagName === 'CODE') {
-                    var pre = element.parentElement;
-                    if (pre) {
-                        var preClasses = pre.className || '';
-                        match = preClasses.match(/language-([a-z0-9_-]+)/i);
-                        if (match && match[1]) {
-                            return match[1];
-                        }
-                    }
-                }
-                
-                // Check for common language aliases in class names
-                var allClasses = elementClasses + (highlight ? (' ' + highlight.className) : '');
-                match = allClasses.match(/\b(python|py|javascript|js|json|yaml|yml|bash|sh|shell|html|css|markdown|md|text|plain|java|cpp|c\+\+|c|go|rust|php|ruby|swift|kotlin|typescript|ts|jsx|tsx|sql|r|matlab|scala|perl|xml|svg|diff|ini|toml|makefile|dockerfile|docker|nginx|apache|conf|config|log|zsh|fish|powershell|ps1|bat|cmd)\b/i);
-                if (match && match[1]) {
-                    var lang = match[1].toLowerCase();
-                    // Normalize aliases
-                    if (lang === 'py') return 'python';
-                    if (lang === 'js') return 'javascript';
-                    if (lang === 'yml') return 'yaml';
-                    if (lang === 'sh') return 'bash';
-                    if (lang === 'md') return 'markdown';
-                    if (lang === 'ts') return 'typescript';
-                    return lang;
-                }
-                
-                return 'text';
+
+                return 'Text';
             }
 
             function attachCopyButtons() {
