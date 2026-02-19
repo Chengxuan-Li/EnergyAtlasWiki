@@ -10,6 +10,8 @@ stream, and output display — from a pair of C# input/output classes decorated 
 
 A GUI Job page has **three sections**, rendered in order (left to right on the page, top to bottom in the diagram below):
 
+![GUI Job page diagram](../../assets/images/gui-job-page-diagram.png)
+
 ```
 Auto-generated form
 ┌──────────────────────────────────────────┐
@@ -388,6 +390,7 @@ public class MyJob : IGUIJob<MyJobInput, MyJobOutput>
 5. Register in `Program.cs`: `builder.Services.AddSingleton<IGUIJobFactory, MyJobFactory>();`.
 6. The job page is generated automatically.
 
+![GUI Job creation process](../../assets/images/gui-job-page-checklist.png)
 
 ## See also
 
