@@ -26,6 +26,7 @@ nav:
     - EnergyAtlas Library: resources/energyatlas-library.md
     - FAQ: resources/faq.md
     - Wiki Guide: wiki-guide/wiki-guide.md
+    - Development Guide: dev-guide/dev-guide.md
 
 markdown_extensions:
   - attr_list
