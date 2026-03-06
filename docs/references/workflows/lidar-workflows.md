@@ -41,6 +41,8 @@ Successfully running this workflow will result in a folder within the working di
 
 The `VoxelShading` job will compute shading using the voxel ray-marching approach. Detailed steps and inputs:
 
+> Note: in the latest version, a new toggle is added to allow the user to export full `SunLitFraction` arrays in sensor-level outputs.
+
 ![alt text](../../assets/images/lidar-workflows-shading.png)
 ![alt text](../../assets/images/lidar-workflows-shading2.png)
 
