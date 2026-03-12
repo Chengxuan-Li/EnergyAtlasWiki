@@ -541,6 +541,17 @@
 
             attachCopyButtons();
 
+            // Wrap markdown tables in a scrollable container so wide tables
+            // get a table-level horizontal scrollbar while narrow tables
+            // still stretch to full width (display:table is preserved).
+            document.querySelectorAll('.md-content table').forEach(function(table) {
+                if (table.parentElement && table.parentElement.classList.contains('table-scroll-wrapper')) return;
+                var wrapper = document.createElement('div');
+                wrapper.className = 'table-scroll-wrapper';
+                table.parentNode.insertBefore(wrapper, table);
+                wrapper.appendChild(table);
+            });
+
             // Page transition animation for right pane
             var contentColumn = document.getElementById('main-content');
             if (contentColumn) {
