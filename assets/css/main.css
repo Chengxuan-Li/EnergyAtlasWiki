@@ -862,11 +862,20 @@ body.menu > .status-bar {
     font-style: italic;
 }
 
+/* Markdown tables: allow horizontal scroll instead of overflow */
 .md-content table {
-    width: 100%;
+    display: block;
+    max-width: 100%;
+    width: max-content;
+    min-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
     border-collapse: collapse;
     margin: var(--spacing-md) 0;
     font-size: var(--font-size-sm);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background: var(--bg-white);
 }
 
 .md-content table th,
@@ -892,13 +901,6 @@ body.menu > .status-bar {
 
 .md-content table tr:hover td {
     background: rgba(77, 163, 255, 0.08);
-}
-
-.md-content table {
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    background: var(--bg-white);
 }
 
 .md-content table thead th {
