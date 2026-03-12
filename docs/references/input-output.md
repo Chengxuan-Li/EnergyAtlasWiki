@@ -31,6 +31,7 @@ See the [Enums Reference](enums.md) for all enum value sets used by the fields i
 | `BldgHeight_M_ESL` | double | m | — | Building height. Required for geometric preprocessing. |
 
 ### Optional Overrides for Geometric Preprocessing
+
 Geometric preprocessing derives building geometry quantities from the footprint geometry and height.
 These quantities are used heavily by the energy model (e.g., heat loss depends on exposed surface areas).
 If you already have more accurate values, you can provide them to override the preprocessing results.
@@ -42,7 +43,9 @@ If you already have more accurate values, you can provide them to override the p
 | `ExposedFacadeArea_SQM_ESL` | double | m² | — | Exterior (exposed) facade area override. |
 | `AdiabaticFacadeArea_SQM_ESL` | double | m² | — | Adiabatic (non-exposed / party wall) facade area override. |
 | `Floors_ESL` | double | floors | — | Number of floors override. |
+
 ### Optional Inputs
+
 
 #### Identifiers
 
