@@ -434,11 +434,13 @@ body.menu > .status-bar {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-md);
+    min-width: 0;
 }
 
 .menu-column-content {
     padding: 0;
     transition: opacity 0.3s ease-in-out;
+    min-width: 0;
 }
 
 .menu-column-nav {
@@ -725,6 +727,7 @@ body.menu > .status-bar {
 
 .md-content {
     width: 100%;
+    min-width: 0;
 }
 
 .md-content h1:first-child,
@@ -862,14 +865,26 @@ body.menu > .status-bar {
     font-style: italic;
 }
 
-/* Markdown tables: allow horizontal scroll instead of overflow */
-.md-content table {
-    display: block;
-    max-width: 100%;
-    width: max-content;
-    min-width: 100%;
+/*
+ * Markdown tables
+ * 1. Tables use normal table layout (display:table) and stretch to 100%.
+ * 2. Cell text wraps so the table fits the container whenever possible.
+ * 3. A JS-injected .table-scroll-wrapper provides a table-level horizontal
+ *    scrollbar when min-content width still exceeds the container.
+ */
+.table-scroll-wrapper {
+    width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    margin: var(--spacing-md) 0;
+}
+
+.table-scroll-wrapper > table {
+    margin: 0;
+}
+
+.md-content table {
+    width: 100%;
     border-collapse: collapse;
     margin: var(--spacing-md) 0;
     font-size: var(--font-size-sm);
@@ -883,6 +898,8 @@ body.menu > .status-bar {
     border: 1px solid var(--border-color);
     padding: var(--spacing-sm);
     text-align: left;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .md-content table th {
