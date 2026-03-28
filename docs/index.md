@@ -11,30 +11,23 @@ EnergyAtlas is a powerful tool for urban-scale building energy modeling and anal
 
 
 ## Installation
-EnergyAtlas is available as:
 
-- An online Web Application
-- A standalone executable available for **[Windows](getting-started/installation/#Windows)** and **[MacOS](getting-started/installation/#MacOS)**
-- **[Grasshopper plugin](getting-started/installation/#Rhino-Grasshopper)** to Rhinoceros 3D (**[get a free 90-day trial](https://www.rhino3d.com/)**)
+EnergyAtlas is offered in several forms.
 
-EnergyAtlas is planned as
-
-- A plugin to **[QGIS](getting-started/installation/#QGIS)**. QGIS is a free and open-source GIS tool (**[get QGIS for free](https://qgis.org/)**)
-- Python package `pip install <not-yet-published-on-pypi>`
-- A public-facing **[RESTful API](getting-started/installation/#RESTful-API)**
+| Platform | Status |
+| -------- | ------ |
+| Online web application | Planned Q3 2026 |
+| Standalone executable (Windows, macOS) | Planned Q2 2026 |
+| Grasshopper plugin for Rhino | Planned Q2 2026 |
+| QGIS plugin | Planned 2026 |
+| Python package | Planned 2026 |
+| Public-facing RESTful API | Planned |
 
 ## Quick Start
 
 ### UBEM Quick Start
 
 - **[UBEM Fundamentals](getting-started/ubem-fundamentals.md)** 
-- **[UBEM Wiki](ubem-wiki/ubem-wiki.md)** 
-
-### EnergyAtlas Quick Start
-
-- **[Build Your First UBEM with EnergyAtlas](getting-started/first-ubem.md)** 
-- **[Why Cities Need EnergyAtlas](getting-started/why-cities-need-energyatlas.md)**
-
 
 ## Energy Atlas References
 
@@ -42,7 +35,6 @@ EnergyAtlas is planned as
 
 
 - **[Input Output Guide](references/input-output.md)**
-- **[Data Preparation](references/data-prep.md)**
 
 
 ### Workflows
@@ -54,23 +46,6 @@ Consult **[Workflows Guide](references/workflows.md)**, or explore by stage:
 - **[Scenario Design and Simulation](references/workflows/scenario-design-simulation.md)**
 - **[Results View](references/workflows/results-view.md)**
 
-### EnergyAtlas Objects
-
-Consult **[Energy Atlas Objects Guide](references/energy-atlas-objects.md)**, or explore individual topics:
-
-- **[Datahub](references/objects/datahub.md)**
-- **[Archetype](references/objects/archetype.md)**
-- **[Archetype Assignment Rule](references/objects/archetype-assignment-rule.md)**
-- **[Geospatial Data (Datahub Entry)](references/objects/geospatial-data.md)**
-- **[Weather File (Datahub Entry)](references/objects/weather-file.md)**
-- **[Retrofit Measure (Datahub Entry)](references/objects/retrofit-measure.md)**
-- **[Scenario (Datahub Entry)](references/objects/scenario.md)**
-
-## Resources
-
-- **[User Stories](resources/user-stories.md)**
-- **[EnergyAtlas Library](resources/energyatlas-library.md)**
-- **[FAQ](resources/faq.md)**
 
 ## Help Us Improve
 
