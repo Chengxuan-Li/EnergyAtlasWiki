@@ -341,6 +341,28 @@
     <div class="scroll-progress-bar">
         <div class="scroll-progress-fill" id="scroll-progress"></div>
     </div>
+    <div
+        id="wiki-dev-notice"
+        class="wiki-dev-notice-banner"
+        hidden
+        role="region"
+        aria-labelledby="wiki-dev-notice-title"
+        aria-hidden="true"
+    >
+        <div class="wiki-dev-notice-banner-inner">
+            <h2 id="wiki-dev-notice-title" class="wiki-dev-notice-title">WIP EnergyAtlas Wiki</h2>
+            <p class="wiki-dev-notice-text">
+                EnergyAtlas Wiki is still under active development. Thank you for your patience while we improve the documentation. If you have any questions, please 
+                <a
+                    class="wiki-dev-notice-link"
+                    href="mailto:cl2749@cornell.edu?subject=EnergyAtlas%20Wiki%20%E2%80%94%20documentation%20question"
+                >contact us</a>.
+            </p>
+            <div class="wiki-dev-notice-banner-actions">
+                <button type="button" class="wiki-dev-notice-ok" id="wiki-dev-notice-ok">Dismiss</button>
+            </div>
+        </div>
+    </div>
     {% if config.extra_javascript %}
         {% for path in config.extra_javascript %}
             <script src="{{ path | url }}" defer></script>
@@ -358,6 +380,41 @@
         })();
 
         document.addEventListener('DOMContentLoaded', function () {
+            var devNoticeKey = 'energyatlas-wiki-dev-notice-dismissed';
+            var devNotice = document.getElementById('wiki-dev-notice');
+            var devNoticeOk = document.getElementById('wiki-dev-notice-ok');
+            if (devNotice && devNoticeOk) {
+                function devNoticeOnEscape(ev) {
+                    if (ev.key === 'Escape') {
+                        closeDevNotice();
+                    }
+                }
+                function closeDevNotice() {
+                    document.removeEventListener('keydown', devNoticeOnEscape);
+                    try {
+                        localStorage.setItem(devNoticeKey, '1');
+                    } catch (e) {}
+                    devNotice.setAttribute('hidden', '');
+                    devNotice.setAttribute('aria-hidden', 'true');
+                    document.body.classList.remove('wiki-has-dev-banner');
+                }
+                function openDevNotice() {
+                    devNotice.removeAttribute('hidden');
+                    devNotice.setAttribute('aria-hidden', 'false');
+                    document.body.classList.add('wiki-has-dev-banner');
+                    document.addEventListener('keydown', devNoticeOnEscape);
+                    devNoticeOk.focus();
+                }
+                var dismissed = false;
+                try {
+                    dismissed = !!localStorage.getItem(devNoticeKey);
+                } catch (e) {}
+                if (!dismissed) {
+                    openDevNotice();
+                }
+                devNoticeOk.addEventListener('click', closeDevNotice);
+            }
+
             var baseOrigin = window.location.origin;
             var links = document.querySelectorAll('.md-content a[href]');
             links.forEach(function (link) {
