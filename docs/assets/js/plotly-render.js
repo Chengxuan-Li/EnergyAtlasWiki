@@ -1,5 +1,23 @@
 (() => {
-    const DEFAULT_SUBTITLE_STYLE = 'font-size: 0.85em; color: #9aa0a6;';
+    const FONT_FAMILY = '"Roboto Flex", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+
+    const getCssValue = (name, fallback) => {
+        const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+        return value || fallback;
+    };
+
+    const getThemePlotlyDefaults = () => {
+        const subtitleColor = getCssValue('--plotly-subtitle-color', '#9aa0a6');
+
+        return {
+            fontColor: getCssValue('--plotly-font-color', '#e5e5e5'),
+            gridColor: getCssValue('--plotly-grid-color', 'rgba(255,255,255,0.12)'),
+            zeroLineColor: getCssValue('--plotly-zeroline-color', 'rgba(255,255,255,0.2)'),
+            paperBg: getCssValue('--plotly-paper-bg', 'rgba(0,0,0,0)'),
+            plotBg: getCssValue('--plotly-plot-bg', 'rgba(0,0,0,0)'),
+            subtitleStyle: `font-size: 0.85em; color: ${subtitleColor};`
+        };
+    };
 
     const parseSpec = (raw) => {
         if (!raw) {
@@ -26,10 +44,10 @@
         }
     };
 
-    const applyTitleAndSubtitle = (spec, layout) => {
+    const applyTitleAndSubtitle = (spec, layout, themeDefaults) => {
         const titleValue = spec.title ?? layout.title ?? '';
         const subtitleValue = spec.subtitle ?? layout.subtitle ?? '';
-        const subtitleStyle = spec.subtitle_style ?? DEFAULT_SUBTITLE_STYLE;
+        const subtitleStyle = spec.subtitle_style ?? themeDefaults.subtitleStyle;
 
         if (!titleValue && !subtitleValue) {
             return;
@@ -53,17 +71,19 @@
     };
 
     const applyDefaults = (layout) => {
+        const themeDefaults = getThemePlotlyDefaults();
+
         if (!layout.paper_bgcolor) {
-            layout.paper_bgcolor = 'rgba(0,0,0,0)';
+            layout.paper_bgcolor = themeDefaults.paperBg;
         }
 
         if (!layout.plot_bgcolor) {
-            layout.plot_bgcolor = 'rgba(0,0,0,0)';
+            layout.plot_bgcolor = themeDefaults.plotBg;
         }
 
         const defaultFont = {
-            color: '#e5e5e5',
-            family: '"Roboto Flex", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
+            color: themeDefaults.fontColor,
+            family: FONT_FAMILY
         };
 
         if (!layout.font) {
@@ -73,9 +93,9 @@
         }
 
         const axisDefaults = {
-            color: '#e5e5e5',
-            gridcolor: 'rgba(255,255,255,0.12)',
-            zerolinecolor: 'rgba(255,255,255,0.2)'
+            color: themeDefaults.fontColor,
+            gridcolor: themeDefaults.gridColor,
+            zerolinecolor: themeDefaults.zeroLineColor
         };
 
         if (!layout.xaxis) {
@@ -97,6 +117,8 @@
         if (!layout.margin) {
             layout.margin = { t: 60, r: 24, b: 72, l: 60 };
         }
+
+        return themeDefaults;
     };
 
     const normalizeLayout = (spec) => {
@@ -107,8 +129,8 @@
             layout.plot_bgcolor = spec.background;
         }
 
-        applyDefaults(layout);
-        applyTitleAndSubtitle(spec, layout);
+        const themeDefaults = applyDefaults(layout);
+        applyTitleAndSubtitle(spec, layout, themeDefaults);
 
         return layout;
     };
@@ -122,6 +144,16 @@
 
     const normalizeData = (spec) => {
         return spec.data || spec.traces || [];
+    };
+
+    const drawPlot = (container, spec, useReact = false) => {
+        const data = normalizeData(spec);
+        const layout = normalizeLayout(spec);
+        const config = normalizeConfig(spec);
+        const renderer = useReact && window.Plotly.react ? window.Plotly.react : window.Plotly.newPlot;
+
+        container.__energyAtlasPlotlySpec = spec;
+        return renderer(container, data, layout, config);
     };
 
     const findBlocks = () => {
@@ -168,11 +200,7 @@
                 codeBlock.replaceWith(container);
             }
 
-            const data = normalizeData(spec);
-            const layout = normalizeLayout(spec);
-            const config = normalizeConfig(spec);
-
-            window.Plotly.newPlot(container, data, layout, config);
+            drawPlot(container, spec);
         });
 
         return true;
@@ -214,10 +242,8 @@
                     error.textContent = '';
                 }
 
-                const data = normalizeData(spec);
-                const layout = normalizeLayout(spec);
-                const config = normalizeConfig(spec);
-                window.Plotly.newPlot(output, data, layout, config);
+                drawPlot(output, spec, output.dataset.plotlyRendered === 'true');
+                output.dataset.plotlyRendered = 'true';
             };
 
             renderSpec(initial.value);
@@ -227,6 +253,18 @@
         });
 
         return true;
+    };
+
+    const rerenderExistingCharts = () => {
+        if (!window.Plotly) {
+            return;
+        }
+
+        document.querySelectorAll('.plotly-chart').forEach((container) => {
+            if (container.__energyAtlasPlotlySpec) {
+                drawPlot(container, container.__energyAtlasPlotlySpec, true);
+            }
+        });
     };
 
     const attemptRender = (tries = 0) => {
@@ -244,4 +282,5 @@
     }
 
     window.addEventListener('load', () => attemptRender());
+    window.addEventListener('energyatlas-theme-change', () => rerenderExistingCharts());
 })();

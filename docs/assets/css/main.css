@@ -17,6 +17,20 @@
     --success-color: #28a745;
     --error-color: #f44336;
     --warning-color: #ffc107;
+    --link-hover-text: var(--bg-dark-surface);
+    --table-row-hover-bg: rgba(77, 163, 255, 0.08);
+    --scrollbar-thumb: rgba(255, 255, 255, 0.2);
+    --scrollbar-thumb-hover: rgba(255, 255, 255, 0.35);
+    --plotly-font-color: #e5e5e5;
+    --plotly-grid-color: rgba(255, 255, 255, 0.12);
+    --plotly-zeroline-color: rgba(255, 255, 255, 0.2);
+    --plotly-paper-bg: rgba(0,0,0,0);
+    --plotly-plot-bg: rgba(0,0,0,0);
+    --plotly-subtitle-color: #9aa0a6;
+    --theme-toggle-bg: #2a2a2a;
+    --theme-toggle-border: #404040;
+    --theme-toggle-active-bg: #4da3ff;
+    --theme-toggle-active-text: #101820;
     
     --font-family: 'Roboto Flex', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-family-mono: 'Cascadia Code', 'Cascadia Mono', Consolas, 'Courier New', monospace;
@@ -44,6 +58,39 @@
     --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
+:root[data-theme="light"] {
+    color-scheme: light;
+    --primary-color: #003978;
+    --secondary-color: #c92d22;
+    --accent-color: #125dae;
+    --text-dark: #18202c;
+    --text-light: #3f4b5b;
+    --text-muted: #6f7a89;
+    --bg-light: #f4f7fb;
+    --bg-white: #ffffff;
+    --bg-dark-surface: #e7edf5;
+    --bg-gradient-dark: #f8fafc;
+    --border-color: #cfd8e5;
+    --success-color: #188038;
+    --error-color: #c5221f;
+    --warning-color: #9a6700;
+    --link-hover-text: #ffffff;
+    --table-row-hover-bg: rgba(18, 93, 174, 0.08);
+    --scrollbar-thumb: rgba(24, 32, 44, 0.24);
+    --scrollbar-thumb-hover: rgba(24, 32, 44, 0.4);
+    --plotly-font-color: #18202c;
+    --plotly-grid-color: rgba(24, 32, 44, 0.14);
+    --plotly-zeroline-color: rgba(24, 32, 44, 0.24);
+    --plotly-paper-bg: rgba(0,0,0,0);
+    --plotly-plot-bg: rgba(0,0,0,0);
+    --plotly-subtitle-color: #5f6b7a;
+    --theme-toggle-bg: #ffffff;
+    --theme-toggle-border: #cfd8e5;
+    --theme-toggle-active-bg: #125dae;
+    --theme-toggle-active-text: #ffffff;
+    --shadow: 0 8px 24px rgba(24, 32, 44, 0.08);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -52,12 +99,13 @@
 
 html {
     scroll-behavior: smooth;
+    color-scheme: dark;
 }
 
-/* Scrollbar styling (dark theme) */
+/* Scrollbar styling */
 * {
     scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+    scrollbar-color: var(--scrollbar-thumb) transparent;
 }
 
 ::-webkit-scrollbar {
@@ -70,12 +118,12 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--scrollbar-thumb);
     border-radius: 8px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.35);
+    background: var(--scrollbar-thumb-hover);
 }
 
 ::-webkit-scrollbar-corner {
@@ -285,7 +333,7 @@ body.menu {
 .wiki-topbar-left-group {
     display: flex;
     align-items: center;
-    gap: var(--spacing-lg);
+    gap: var(--spacing-sm);
 }
 
 .wiki-topbar-left {
@@ -396,6 +444,69 @@ body.menu {
 .wiki-topbar-link-icon svg {
     width: 14px;
     height: 14px;
+}
+
+.wiki-theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
+    padding: 0;
+    border: 1px solid var(--theme-toggle-border);
+    border-radius: 50%;
+    background: var(--theme-toggle-bg);
+    color: var(--text-light);
+    font-family: var(--font-family);
+    font-size: var(--font-size-xs);
+    font-variation-settings: 'wdth' 150, 'wght' 500;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+    flex-shrink: 0;
+}
+
+.wiki-theme-toggle:hover {
+    border-color: var(--accent-color);
+    color: var(--text-dark);
+}
+
+.wiki-theme-toggle:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+}
+
+.wiki-theme-toggle[aria-pressed="true"] {
+    background: var(--theme-toggle-active-bg);
+    border-color: var(--theme-toggle-active-bg);
+    color: var(--theme-toggle-active-text);
+}
+
+.wiki-theme-toggle-icon {
+    width: 16px;
+    height: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wiki-theme-toggle-icon svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+}
+
+.wiki-theme-toggle-icon-sun {
+    display: none;
+}
+
+[data-theme="light"] .wiki-theme-toggle-icon-sun {
+    display: inline-flex;
+}
+
+[data-theme="light"] .wiki-theme-toggle-icon-moon {
+    display: none;
 }
 
 body.menu > .container {
@@ -917,7 +1028,7 @@ body.menu > .status-bar {
 }
 
 .md-content table tr:hover td {
-    background: rgba(77, 163, 255, 0.08);
+    background: var(--table-row-hover-bg);
 }
 
 .md-content table thead th {
@@ -1276,6 +1387,132 @@ body.menu > .status-bar {
 .md-content pre code .vi { color: #F8F8F2 }
 .md-content pre code .vm { color: #F8F8F2 }
 .md-content pre code .il { color: #AE81FF }
+
+[data-theme="light"] .code-block-body .hll,
+[data-theme="light"] .md-content pre code .hll { background-color: #dbeafe }
+[data-theme="light"] .code-block-body .c,
+[data-theme="light"] .code-block-body .ch,
+[data-theme="light"] .code-block-body .cm,
+[data-theme="light"] .code-block-body .cp,
+[data-theme="light"] .code-block-body .cpf,
+[data-theme="light"] .code-block-body .c1,
+[data-theme="light"] .code-block-body .cs,
+[data-theme="light"] .code-block-body .gu,
+[data-theme="light"] .md-content pre code .c,
+[data-theme="light"] .md-content pre code .ch,
+[data-theme="light"] .md-content pre code .cm,
+[data-theme="light"] .md-content pre code .cp,
+[data-theme="light"] .md-content pre code .cpf,
+[data-theme="light"] .md-content pre code .c1,
+[data-theme="light"] .md-content pre code .cs,
+[data-theme="light"] .md-content pre code .gu { color: #5f6b7a }
+[data-theme="light"] .code-block-body .err,
+[data-theme="light"] .md-content pre code .err { color: #b42318; background-color: #fee4e2 }
+[data-theme="light"] .code-block-body .k,
+[data-theme="light"] .code-block-body .kc,
+[data-theme="light"] .code-block-body .kd,
+[data-theme="light"] .code-block-body .kn,
+[data-theme="light"] .code-block-body .kp,
+[data-theme="light"] .code-block-body .kr,
+[data-theme="light"] .code-block-body .kt,
+[data-theme="light"] .md-content pre code .k,
+[data-theme="light"] .md-content pre code .kc,
+[data-theme="light"] .md-content pre code .kd,
+[data-theme="light"] .md-content pre code .kn,
+[data-theme="light"] .md-content pre code .kp,
+[data-theme="light"] .md-content pre code .kr,
+[data-theme="light"] .md-content pre code .kt { color: #075985 }
+[data-theme="light"] .code-block-body .l,
+[data-theme="light"] .code-block-body .m,
+[data-theme="light"] .code-block-body .mb,
+[data-theme="light"] .code-block-body .mf,
+[data-theme="light"] .code-block-body .mh,
+[data-theme="light"] .code-block-body .mi,
+[data-theme="light"] .code-block-body .mo,
+[data-theme="light"] .code-block-body .il,
+[data-theme="light"] .md-content pre code .l,
+[data-theme="light"] .md-content pre code .m,
+[data-theme="light"] .md-content pre code .mb,
+[data-theme="light"] .md-content pre code .mf,
+[data-theme="light"] .md-content pre code .mh,
+[data-theme="light"] .md-content pre code .mi,
+[data-theme="light"] .md-content pre code .mo,
+[data-theme="light"] .md-content pre code .il { color: #7c3aed }
+[data-theme="light"] .code-block-body .n,
+[data-theme="light"] .code-block-body .nb,
+[data-theme="light"] .code-block-body .ni,
+[data-theme="light"] .code-block-body .nl,
+[data-theme="light"] .code-block-body .nn,
+[data-theme="light"] .code-block-body .nv,
+[data-theme="light"] .code-block-body .py,
+[data-theme="light"] .code-block-body .pm,
+[data-theme="light"] .code-block-body .w,
+[data-theme="light"] .code-block-body .bp,
+[data-theme="light"] .code-block-body .vc,
+[data-theme="light"] .code-block-body .vg,
+[data-theme="light"] .code-block-body .vi,
+[data-theme="light"] .code-block-body .vm,
+[data-theme="light"] .md-content pre code .n,
+[data-theme="light"] .md-content pre code .nb,
+[data-theme="light"] .md-content pre code .nn,
+[data-theme="light"] .md-content pre code .nv,
+[data-theme="light"] .md-content pre code .w,
+[data-theme="light"] .md-content pre code .bp,
+[data-theme="light"] .md-content pre code .vc,
+[data-theme="light"] .md-content pre code .vg,
+[data-theme="light"] .md-content pre code .vi,
+[data-theme="light"] .md-content pre code .vm { color: #2f3440 }
+[data-theme="light"] .code-block-body .o,
+[data-theme="light"] .code-block-body .gd,
+[data-theme="light"] .code-block-body .gp,
+[data-theme="light"] .code-block-body .nt,
+[data-theme="light"] .code-block-body .ow,
+[data-theme="light"] .md-content pre code .o,
+[data-theme="light"] .md-content pre code .gd,
+[data-theme="light"] .md-content pre code .gp,
+[data-theme="light"] .md-content pre code .nt,
+[data-theme="light"] .md-content pre code .ow { color: #be123c }
+[data-theme="light"] .code-block-body .s,
+[data-theme="light"] .code-block-body .ld,
+[data-theme="light"] .code-block-body .sa,
+[data-theme="light"] .code-block-body .sb,
+[data-theme="light"] .code-block-body .sc,
+[data-theme="light"] .code-block-body .dl,
+[data-theme="light"] .code-block-body .sd,
+[data-theme="light"] .code-block-body .s2,
+[data-theme="light"] .code-block-body .sh,
+[data-theme="light"] .code-block-body .si,
+[data-theme="light"] .code-block-body .sx,
+[data-theme="light"] .code-block-body .sr,
+[data-theme="light"] .code-block-body .s1,
+[data-theme="light"] .code-block-body .ss,
+[data-theme="light"] .md-content pre code .s,
+[data-theme="light"] .md-content pre code .ld,
+[data-theme="light"] .md-content pre code .sa,
+[data-theme="light"] .md-content pre code .sb,
+[data-theme="light"] .md-content pre code .sc,
+[data-theme="light"] .md-content pre code .dl,
+[data-theme="light"] .md-content pre code .sd,
+[data-theme="light"] .md-content pre code .s2,
+[data-theme="light"] .md-content pre code .sh,
+[data-theme="light"] .md-content pre code .si,
+[data-theme="light"] .md-content pre code .sx,
+[data-theme="light"] .md-content pre code .sr,
+[data-theme="light"] .md-content pre code .s1,
+[data-theme="light"] .md-content pre code .ss { color: #7a4f00 }
+[data-theme="light"] .code-block-body .na,
+[data-theme="light"] .code-block-body .nc,
+[data-theme="light"] .code-block-body .nd,
+[data-theme="light"] .code-block-body .ne,
+[data-theme="light"] .code-block-body .nf,
+[data-theme="light"] .code-block-body .nx,
+[data-theme="light"] .code-block-body .fm,
+[data-theme="light"] .md-content pre code .na,
+[data-theme="light"] .md-content pre code .nc,
+[data-theme="light"] .md-content pre code .nd,
+[data-theme="light"] .md-content pre code .ne,
+[data-theme="light"] .md-content pre code .nf,
+[data-theme="light"] .md-content pre code .fm { color: #166534 }
 
 .plotly-playground {
     position: relative;
