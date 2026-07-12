@@ -31,6 +31,10 @@
             grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
         }
 
+        .wiki-grid-full-width {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
         .wiki-breadcrumbs {
             font-size: var(--font-size-xs);
             color: var(--text-muted);
@@ -202,6 +206,7 @@
     </style>
 </head>
 <body class="menu">
+    {% set page_full_width = page and page.meta and page.meta.full_width %}
     <div class="wiki-topbar">
         <div class="wiki-topbar-inner">
             <div class="wiki-topbar-left-group">
@@ -238,13 +243,15 @@
                     <li><a class="wiki-topbar-nav-link" href="{{ 'resources/user-stories/' | url }}">User Stories</a></li>
                     <li><a class="wiki-topbar-nav-link" href="{{ 'resources/energyatlas-library/' | url }}">Library</a></li>
                     <li><a class="wiki-topbar-nav-link" href="{{ 'resources/faq/' | url }}">FAQ</a></li>
+                    <li><a class="wiki-topbar-nav-link" href="{{ 'resources/site-map/' | url }}">Site Map</a></li>
                 </ul>
             </nav>
         </div>
     </div>
     <div class="container">
         <div class="menu-content">
-            <div class="menu-grid wiki-grid">
+            <div class="menu-grid wiki-grid {% if page_full_width %}wiki-grid-full-width{% endif %}">
+                {% if not page_full_width %}
                 <aside class="menu-column menu-column-nav">
                     <div class="menu-column-header">
                         <h2 class="menu-column-title">Wiki Navigation</h2>
@@ -295,6 +302,7 @@
                         {% endfor %}
                     {% endif %}
                 </aside>
+                {% endif %}
 
                 <main class="menu-column menu-column-content" id="main-content">
                     {% block content %}
@@ -302,6 +310,7 @@
                     {% endblock %}
                 </main>
 
+                {% if not page_full_width %}
                 <aside class="menu-column menu-column-toc">
                     <nav class="toc-nav" id="toc-nav">
                         {% if page.toc %}
@@ -335,6 +344,7 @@
                         {% endif %}
                     </nav>
                 </aside>
+                {% endif %}
             </div>
         </div>
     </div>
