@@ -10,6 +10,20 @@
     {% else %}
         <title>{{ config.site_name }}</title>
     {% endif %}
+
+    <script>
+        (function() {
+            var theme = 'dark';
+            try {
+                var storedTheme = localStorage.getItem('energyatlas-wiki-theme');
+                if (storedTheme === 'light' || storedTheme === 'dark') {
+                    theme = storedTheme;
+                }
+            } catch (e) {}
+            document.documentElement.dataset.theme = theme;
+            document.documentElement.style.colorScheme = theme;
+        })();
+    </script>
     
     {% for path in config.extra_css %}
         <link rel="stylesheet" href="{{ path | url }}" />
@@ -29,6 +43,10 @@
 
         .wiki-grid {
             grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+        }
+
+        .wiki-grid-full-width {
+            grid-template-columns: minmax(0, 1fr);
         }
 
         .wiki-breadcrumbs {
@@ -95,7 +113,7 @@
 
         .md-content a:hover {
             background: var(--accent-color);
-            color: var(--bg-dark-surface);
+            color: var(--link-hover-text);
             text-decoration: none;
         }
 
@@ -173,7 +191,7 @@
         .wiki-nav-link:hover,
         .wiki-nav-link.active {
             background: var(--accent-color);
-            color: var(--bg-dark-surface);
+            color: var(--link-hover-text);
             text-decoration: none;
         }
 
@@ -202,6 +220,7 @@
     </style>
 </head>
 <body class="menu">
+    {% set page_full_width = page and page.meta and page.meta.full_width %}
     <div class="wiki-topbar">
         <div class="wiki-topbar-inner">
             <div class="wiki-topbar-left-group">
@@ -209,6 +228,26 @@
                     <img class="wiki-topbar-icon" src="{{ 'assets/images/icon.svg' | url }}" alt="EnergyAtlas Logo" />
                     <span class="wiki-topbar-title">EnergyAtlas</span><span class="wiki-topbar-title-light"> Wiki</span>
                 </a>
+                <button
+                    type="button"
+                    class="wiki-theme-toggle"
+                    id="wiki-theme-toggle"
+                    aria-pressed="false"
+                    aria-label="Switch to light theme"
+                    title="Switch to light theme"
+                >
+                    <span class="wiki-theme-toggle-icon wiki-theme-toggle-icon-sun" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" />
+                            <path d="M12 2v3M12 19v3M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M2 12h3M19 12h3M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                        </svg>
+                    </span>
+                    <span class="wiki-theme-toggle-icon wiki-theme-toggle-icon-moon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5A8.5 8.5 0 1 0 20.5 14.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                </button>
                 {% if page and page.edit_url %}
                     <a class="wiki-topbar-link" href="{{ page.edit_url }}" target="_blank" rel="noopener">
                         <span class="wiki-topbar-link-icon" aria-hidden="true">
@@ -216,7 +255,7 @@
                                 <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2 .37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.5 7.5 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
                             </svg>
                         </span>
-                        Edit on GitHub
+                        Edit
                     </a>
                 {% elif config.repo_url %}
                     <a class="wiki-topbar-link" href="{{ config.repo_url }}" target="_blank" rel="noopener">
@@ -238,13 +277,15 @@
                     <li><a class="wiki-topbar-nav-link" href="{{ 'resources/user-stories/' | url }}">User Stories</a></li>
                     <li><a class="wiki-topbar-nav-link" href="{{ 'resources/energyatlas-library/' | url }}">Library</a></li>
                     <li><a class="wiki-topbar-nav-link" href="{{ 'resources/faq/' | url }}">FAQ</a></li>
+                    <li><a class="wiki-topbar-nav-link" href="{{ 'resources/site-map/' | url }}">Site Map</a></li>
                 </ul>
             </nav>
         </div>
     </div>
     <div class="container">
         <div class="menu-content">
-            <div class="menu-grid wiki-grid">
+            <div class="menu-grid wiki-grid {% if page_full_width %}wiki-grid-full-width{% endif %}">
+                {% if not page_full_width %}
                 <aside class="menu-column menu-column-nav">
                     <div class="menu-column-header">
                         <h2 class="menu-column-title">Wiki Navigation</h2>
@@ -295,6 +336,7 @@
                         {% endfor %}
                     {% endif %}
                 </aside>
+                {% endif %}
 
                 <main class="menu-column menu-column-content" id="main-content">
                     {% block content %}
@@ -302,6 +344,7 @@
                     {% endblock %}
                 </main>
 
+                {% if not page_full_width %}
                 <aside class="menu-column menu-column-toc">
                     <nav class="toc-nav" id="toc-nav">
                         {% if page.toc %}
@@ -335,6 +378,7 @@
                         {% endif %}
                     </nav>
                 </aside>
+                {% endif %}
             </div>
         </div>
     </div>
