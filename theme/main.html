@@ -44,15 +44,53 @@
     <div class="md-content">
         {{ page.content }}
         <footer class="wiki-page-footer">
-            <p class="wiki-page-footer-updated">
-                Last page update {{ page.meta.page_updated_at or "Unknown" }}<br />
-                Last website update {{ config.extra.website_updated_at or "Unknown" }}
-            </p>
-            <p class="wiki-page-footer-issue">
-                Found an issue on this page? Please open an
-                <a href="https://github.com/Chengxuan-Li/EnergyAtlasWiki/issues/new">issue</a>
-                on GitHub.
-            </p>
+            {% if page.meta.previous_article or page.meta.next_article %}
+                <nav class="wiki-article-nav" aria-label="Article navigation">
+                    {% if page.meta.previous_article %}
+                        <a class="wiki-article-nav-button wiki-article-nav-button-prev" href="{{ page.meta.previous_article.url | url }}">
+                            <span class="wiki-article-nav-title">
+                                <span class="wiki-article-nav-symbol" aria-hidden="true">
+                                    <svg class="wiki-article-nav-icon" viewBox="0 0 16 16" focusable="false">
+                                        <polyline points="10 3 5 8 10 13"></polyline>
+                                    </svg>
+                                </span>
+                                <span>{{ page.meta.previous_article.title }}</span>
+                            </span>
+                            <span class="wiki-article-nav-label">Previous</span>
+                        </a>
+                    {% else %}
+                        <span class="wiki-article-nav-placeholder" aria-hidden="true"></span>
+                    {% endif %}
+
+                    {% if page.meta.next_article %}
+                        <a class="wiki-article-nav-button wiki-article-nav-button-next" href="{{ page.meta.next_article.url | url }}">
+                            <span class="wiki-article-nav-title">
+                                <span>{{ page.meta.next_article.title }}</span>
+                                <span class="wiki-article-nav-symbol" aria-hidden="true">
+                                    <svg class="wiki-article-nav-icon" viewBox="0 0 16 16" focusable="false">
+                                        <polyline points="6 3 11 8 6 13"></polyline>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="wiki-article-nav-label">Next</span>
+                        </a>
+                    {% else %}
+                        <span class="wiki-article-nav-placeholder" aria-hidden="true"></span>
+                    {% endif %}
+                </nav>
+            {% endif %}
+
+            <div class="wiki-page-footer-separator">
+                <p class="wiki-page-footer-updated">
+                    Last page update {{ page.meta.page_updated_at or "Unknown" }}<br />
+                    Last website update {{ config.extra.website_updated_at or "Unknown" }}
+                </p>
+                <p class="wiki-page-footer-issue">
+                    Found an issue on this page? Please open an
+                    <a href="https://github.com/Chengxuan-Li/EnergyAtlasWiki/issues/new">issue</a>
+                    on GitHub.
+                </p>
+            </div>
         </footer>
     </div>
 {% endblock %}

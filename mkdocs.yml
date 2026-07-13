@@ -47,7 +47,7 @@ markdown_extensions:
       permalink: true
 
 hooks:
-  - hooks/git_dates.py
+  - hooks/wiki_metadata.py
 
 extra_css:
   - assets/css/main.css

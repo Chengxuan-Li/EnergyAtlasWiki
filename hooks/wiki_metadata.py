@@ -81,3 +81,62 @@ def on_page_markdown(markdown: str, page: Any, config: Any, files: Any) -> str:
     )
 
     return markdown
+
+
+def is_nav_page(item: Any) -> bool:
+    return hasattr(item, "meta") and hasattr(item, "url") and hasattr(item, "title")
+
+
+def flatten_nav_pages(items: Any) -> list[Any]:
+    pages: list[Any] = []
+    for item in items:
+        children = getattr(item, "children", None)
+        if children:
+            pages.extend(flatten_nav_pages(children))
+        elif is_nav_page(item):
+            pages.append(item)
+    return pages
+
+
+def article_summary(page: Any) -> dict[str, str]:
+    return {
+        "title": page.title,
+        "url": page.url,
+    }
+
+
+def page_key(page: Any) -> str | None:
+    file = getattr(page, "file", None)
+    return (
+        getattr(file, "src_uri", None)
+        or getattr(file, "src_path", None)
+        or getattr(file, "abs_src_path", None)
+        or getattr(page, "url", None)
+    )
+
+
+def apply_article_nav_metadata(page: Any, pages: list[Any]) -> None:
+    current_key = page_key(page)
+    for index, nav_page in enumerate(pages):
+        if nav_page is page or (current_key and page_key(nav_page) == current_key):
+            page.meta["previous_article"] = article_summary(pages[index - 1]) if index > 0 else None
+            page.meta["next_article"] = article_summary(pages[index + 1]) if index < len(pages) - 1 else None
+            return
+
+    page.meta["previous_article"] = None
+    page.meta["next_article"] = None
+
+
+def on_nav(nav: Any, config: Any, files: Any) -> Any:
+    pages = flatten_nav_pages(getattr(nav, "items", []))
+
+    for index, page in enumerate(pages):
+        page.meta["previous_article"] = article_summary(pages[index - 1]) if index > 0 else None
+        page.meta["next_article"] = article_summary(pages[index + 1]) if index < len(pages) - 1 else None
+
+    return nav
+
+
+def on_page_context(context: dict[str, Any], page: Any, config: Any, nav: Any) -> dict[str, Any]:
+    apply_article_nav_metadata(page, flatten_nav_pages(getattr(nav, "items", [])))
+    return context
