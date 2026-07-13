@@ -976,6 +976,111 @@ body.menu > .status-bar {
     font-style: italic;
 }
 
+.wiki-page-footer {
+    margin-top: var(--spacing-2xl);
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+}
+
+.wiki-article-nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.md-content .wiki-article-nav-button {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    color: var(--text-light);
+    text-decoration: none;
+    background: var(--bg-dark-surface);
+    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+
+.md-content .wiki-article-nav-button:hover {
+    border-color: var(--accent-color);
+    color: var(--text-dark);
+    background: var(--bg-white);
+    text-decoration: none;
+}
+
+.md-content .wiki-article-nav-button:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+}
+
+.wiki-article-nav-button-next {
+    text-align: right;
+}
+
+.wiki-article-nav-title {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    min-width: 0;
+    font-variation-settings: 'wdth' 150, 'wght' 600;
+    font-weight: 600;
+    color: var(--text-dark);
+    line-height: 1.35;
+}
+
+.wiki-article-nav-button-next .wiki-article-nav-title {
+    justify-content: flex-end;
+}
+
+.wiki-article-nav-symbol {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--accent-color);
+}
+
+.wiki-article-nav-icon {
+    display: block;
+    width: 0.95em;
+    height: 0.95em;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.wiki-article-nav-label {
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    font-variation-settings: 'wdth' 150, 'wght' 300;
+    font-weight: 300;
+}
+
+.wiki-page-footer-separator {
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--border-color);
+}
+
+.wiki-page-footer p {
+    margin-bottom: var(--spacing-sm);
+}
+
+.wiki-page-footer p:last-child {
+    margin-bottom: 0;
+}
+
+.wiki-page-footer-updated {
+    font-style: italic;
+}
+
+.wiki-page-footer-issue {
+    color: var(--text-light);
+}
+
 /*
  * Markdown tables
  * 1. Tables use normal table layout (display:table) and stretch to 100%.

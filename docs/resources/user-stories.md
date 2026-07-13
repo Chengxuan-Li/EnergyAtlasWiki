@@ -27,7 +27,3 @@ User stories demonstrate how EnergyAtlas is being used to solve urban energy cha
 ## Submit Your Story
 
 Have an EnergyAtlas success story to share? Please contact us or submit through our [feature request form](https://forms.gle/sYdu6jYsP1BUn6ey6).
-
----
-
-*Last updated: {{ version }}*

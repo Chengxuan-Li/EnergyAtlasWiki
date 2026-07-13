@@ -46,10 +46,8 @@ markdown_extensions:
   - toc:
       permalink: true
 
-plugins:
-  - macros:
-      variables:
-        version: "January 2026"
+hooks:
+  - hooks/wiki_metadata.py
 
 extra_css:
   - assets/css/main.css
@@ -62,6 +60,3 @@ extra_javascript:
   - https://cdn.plot.ly/plotly-2.32.0.min.js
   - assets/js/theme-toggle.js
   - assets/js/plotly-render.js
-
-extra:
-  version: "January 2026"

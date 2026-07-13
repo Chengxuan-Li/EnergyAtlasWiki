@@ -58,10 +58,3 @@ If you would like to contribute to this Wiki, check out:
 
 If you would like to submit an EnergyAtlas feature request, please feel out our **[Feature Request Survey](https://forms.gle/sYdu6jYsP1BUn6ey6)**.
 
-
-
----
-
-*Last updated: {{ version }}*
-
-Found an issue on this page? Please open an [issue](https://github.com/Chengxuan-Li/EnergyAtlasWiki/issues/new) on GitHub.
