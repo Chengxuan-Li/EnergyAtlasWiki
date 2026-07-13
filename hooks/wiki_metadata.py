@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from functools import lru_cache
 import subprocess
 from datetime import datetime
 from pathlib import Path
@@ -22,6 +23,7 @@ def format_git_timestamp(timestamp: str) -> str:
     return f"{format_gmt_offset(parsed)} {parsed.strftime(DATE_FORMAT)}"
 
 
+@lru_cache(maxsize=None)
 def git_timestamp(repo_root: Path, page_path: Path | None = None) -> str | None:
     command = ["git", "log", "-1", "--format=%cI"]
     if page_path is not None:
