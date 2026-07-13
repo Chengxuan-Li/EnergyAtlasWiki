@@ -95,7 +95,3 @@ Common issues and solutions:
 - **Simulation failures**: Verify weather file compatibility and building assignments
 
 **Need help?** Check the [FAQ](../resources/faq.md) or open an [issue on GitHub](https://github.com/Chengxuan-Li/EnergyAtlasWiki/issues/new).
-
----
-
-*Last updated: {{ version }}*

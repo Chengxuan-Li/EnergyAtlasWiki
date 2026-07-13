@@ -102,7 +102,3 @@ Now that you understand UBEM fundamentals:
 - [Archetype Library](../resources/archetype-library.md) - Pre-built building archetypes
 - [EnergyAtlas Library](../resources/energyatlas-library.md) - All library resources
 - [Technical References](../technical-references/technical-references.md) - Advanced documentation
-
----
-
-*Last updated: {{ version }}*

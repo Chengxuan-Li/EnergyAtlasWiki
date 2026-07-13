@@ -72,7 +72,3 @@ Access EnergyAtlas functionality programmatically via HTTP requests.
 - **[FAQ](../resources/faq.md)** - Common questions and solutions
 - **[GitHub Issues](https://github.com/Chengxuan-Li/EnergyAtlasWiki/issues/new)** - Report installation problems
 - **[EnergyAtlas.io](http://EnergyAtlas.io/)** - Contact support
-
----
-
-*Last updated: {{ version }}*

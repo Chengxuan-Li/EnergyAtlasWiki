@@ -43,5 +43,16 @@
 
     <div class="md-content">
         {{ page.content }}
+        <footer class="wiki-page-footer">
+            <p class="wiki-page-footer-updated">
+                Last page update {{ page.meta.page_updated_at or "Unknown" }}<br />
+                Last website update {{ config.extra.website_updated_at or "Unknown" }}
+            </p>
+            <p class="wiki-page-footer-issue">
+                Found an issue on this page? Please open an
+                <a href="https://github.com/Chengxuan-Li/EnergyAtlasWiki/issues/new">issue</a>
+                on GitHub.
+            </p>
+        </footer>
     </div>
 {% endblock %}

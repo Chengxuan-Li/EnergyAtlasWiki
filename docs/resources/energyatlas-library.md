@@ -38,7 +38,3 @@ Have archetypes, weather data, or retrofit measures to share? Contact us through
 - **[Workflows Guide](../references/workflows.md)** - Learn how to use library resources in workflows
 - **[EnergyAtlas Objects Guide](../references/energy-atlas-objects.md)** - Understand object structure and properties
 - **[Build Your First UBEM](../getting-started/first-ubem.md)** - Tutorial using library resources
-
----
-
-*Last updated: {{ version }}*

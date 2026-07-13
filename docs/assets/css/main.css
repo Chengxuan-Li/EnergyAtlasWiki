@@ -976,6 +976,30 @@ body.menu > .status-bar {
     font-style: italic;
 }
 
+.wiki-page-footer {
+    margin-top: var(--spacing-2xl);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--border-color);
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+}
+
+.wiki-page-footer p {
+    margin-bottom: var(--spacing-sm);
+}
+
+.wiki-page-footer p:last-child {
+    margin-bottom: 0;
+}
+
+.wiki-page-footer-updated {
+    font-style: italic;
+}
+
+.wiki-page-footer-issue {
+    color: var(--text-light);
+}
+
 /*
  * Markdown tables
  * 1. Tables use normal table layout (display:table) and stretch to 100%.

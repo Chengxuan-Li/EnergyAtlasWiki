@@ -24,6 +24,15 @@ def test_base_template_bootstraps_dark_first_theme_and_renders_toggle():
     assert base.index('id="wiki-theme-toggle"') < base.index('class="wiki-topbar-link"')
 
 
+def test_main_template_renders_central_page_footer():
+    main = read("theme/main.html")
+
+    assert "wiki-page-footer" in main
+    assert "Last page update {{ page.meta.page_updated_at or \"Unknown\" }}" in main
+    assert "Last website update {{ config.extra.website_updated_at or \"Unknown\" }}" in main
+    assert "Found an issue on this page?" in main
+
+
 def test_theme_script_is_loaded_before_plotly_renderer():
     config = read("mkdocs.yml")
 
