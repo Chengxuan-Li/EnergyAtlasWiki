@@ -20,11 +20,13 @@ nav:
     - Input Output Guide: references/input-output.md
     - Workflows Guide: references/workflows.md
     - Objects Guide: references/energy-atlas-objects.md
+    - Python Reference: references/python-reference.md
+    - Web API Reference: references/web-api-reference.md
+    - Voxel Shading Guides: references/guides/voxel-shading-guide-index.md
 
   - Resources:
     - User Stories: resources/user-stories.md
     - EnergyAtlas Library: resources/energyatlas-library.md
-    - FAQ: resources/faq.md
     - Wiki Guide: wiki-guide/wiki-guide.md
     - Development Guide: dev-guide/dev-guide.md
 

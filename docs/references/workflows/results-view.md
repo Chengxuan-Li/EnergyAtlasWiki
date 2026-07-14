@@ -26,4 +26,3 @@ After analyzing results:
 
 - [Input Output Guide](../input-output.md) - Export formats
 - [Objects Reference](../objects/datahub.md) - Data model
-- [FAQ](../../resources/faq.md) - Common questions
