@@ -162,9 +162,8 @@ Workflows can be combined and repeated:
 If you encounter issues with workflows:
 
 1. Check workflow-specific documentation
-2. Review [FAQ](../resources/faq.md)
-3. Verify data requirements are met
-4. Check error messages for guidance
+2. Verify data requirements are met
+3. Check error messages for guidance
 
 ## Next Steps
 

@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520" role="img" aria-labelledby="title desc">
+  <title id="title">Sky and horizon view factor ray casting</title>
+  <desc id="desc">Diagram showing a shading sensor, cosine-weighted sky dome rays, horizontal horizon rays, visible rays, blocked rays, and output factors.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#334155"/>
+    </marker>
+    <style>
+      .label{font:16px Arial,sans-serif;fill:#0f172a}
+      .small{font:13px Arial,sans-serif;fill:#334155}
+      .box{fill:#f8fafc;stroke:#64748b;stroke-width:1.5;rx:8}
+      .ray{stroke:#2563eb;stroke-width:2;fill:none;marker-end:url(#arrow)}
+      .hit{stroke:#dc2626;stroke-width:2;fill:none;marker-end:url(#arrow)}
+      .horizon{stroke:#16a34a;stroke-width:2;fill:none;marker-end:url(#arrow)}
+      .grid{stroke:#cbd5e1;stroke-width:1}
+    </style>
+  </defs>
+  <rect width="900" height="520" fill="#ffffff"/>
+  <path d="M150 380 A300 300 0 0 1 750 380" fill="#e0f2fe" stroke="#0284c7" stroke-width="3"/>
+  <line x1="110" y1="380" x2="790" y2="380" stroke="#94a3b8" stroke-width="2"/>
+  <text x="410" y="50" class="label">Cosine-weighted sky dome samples</text>
+  <text x="360" y="405" class="small">Horizontal horizon sample ring</text>
+  <circle cx="450" cy="380" r="9" fill="#0f172a"/>
+  <line x1="450" y1="380" x2="450" y2="270" stroke="#0f172a" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="463" y="300" class="small">sensor normal</text>
+  <text x="470" y="377" class="small">sensor</text>
+  <path class="ray" d="M450 380 L365 190"/>
+  <path class="ray" d="M450 380 L470 110"/>
+  <path class="ray" d="M450 380 L590 165"/>
+  <path class="hit" d="M450 380 L665 260"/>
+  <path class="horizon" d="M450 380 L735 380"/>
+  <path class="horizon" d="M450 380 L190 380"/>
+  <rect x="625" y="235" width="80" height="145" fill="#9ca3af" stroke="#475569"/>
+  <text x="617" y="222" class="small">voxel hit</text>
+  <rect x="45" y="420" width="250" height="70" class="box"/>
+  <text x="62" y="445" class="label">SVF</text>
+  <text x="62" y="468" class="small">visible upward dome rays</text>
+  <text x="62" y="486" class="small">/ SkyDomeSamples</text>
+  <rect x="325" y="420" width="250" height="70" class="box"/>
+  <text x="342" y="445" class="label">DomeSFs</text>
+  <text x="342" y="468" class="small">visible / total per 6 x 24</text>
+  <text x="342" y="486" class="small">EnergyPlus-style sky bin</text>
+  <rect x="605" y="420" width="250" height="70" class="box"/>
+  <text x="622" y="445" class="label">HVF</text>
+  <text x="622" y="468" class="small">dot-weighted visible horizon</text>
+  <text x="622" y="486" class="small">directions in front of sensor</text>
+</svg>

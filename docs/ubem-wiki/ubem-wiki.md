@@ -55,4 +55,3 @@ EnergyAtlas implements UBEM through a five-stage workflow:
 
 - **[EnergyAtlas Library](../resources/energyatlas-library.md)** - Pre-built archetypes, weather data, and retrofit measures
 - **[Technical References](../technical-references/technical-references.md)** - Advanced technical documentation
-- **[FAQ](../resources/faq.md)** - Frequently asked questions

@@ -46,4 +46,3 @@ After calibration:
 
 - [Archetype Object](../objects/archetype.md) - Archetype parameters
 - [Weather File](../objects/weather-file.md) - Weather data specifications
-- [FAQ](../../resources/faq.md) - Common questions

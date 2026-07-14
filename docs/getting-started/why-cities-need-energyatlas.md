@@ -100,4 +100,3 @@ Ready to get started with EnergyAtlas?
 
 - **[User Stories](../resources/user-stories.md)** - See how cities are using EnergyAtlas
 - **[Workflows Guide](../references/workflows.md)** - Explore EnergyAtlas workflows
-- **[FAQ](../resources/faq.md)** - Frequently asked questions
