@@ -14,14 +14,23 @@ def test_base_template_bootstraps_dark_first_theme_and_renders_toggle():
 
     assert "energyatlas-wiki-theme" in base
     assert "document.documentElement.dataset.theme = theme" in base
-    assert "theme = 'dark'" in base
+    assert "prefers-color-scheme: light" in base
     assert 'id="wiki-theme-toggle"' in base
     assert 'aria-pressed="false"' in base
-    assert '<span class="wiki-theme-toggle-text">' not in base
+    assert '<span class="wiki-theme-toggle-track" aria-hidden="true">' in base
     assert "Edit on GitHub" not in base
-    assert re.search(r">\s*Edit\s*<", base)
+    assert not re.search(r">\s*Edit\s*<", base)
+    assert not re.search(r">\s*View on GitHub\s*<", base)
+    assert 'aria-label="Edit this page"' in base
+    assert 'aria-label="View GitHub repository"' in base
+    assert 'class="wiki-topbar-link wiki-topbar-icon-button wiki-topbar-edit-button"' in base
+    assert 'class="wiki-topbar-link wiki-topbar-icon-button wiki-topbar-github-button"' in base
+    assert 'href="{{ page.edit_url }}"' in base
+    assert 'href="{{ config.repo_url }}"' in base
+    assert "wiki-topbar-pen-icon" in base
+    assert "wiki-topbar-github-icon" in base
     assert base.index('class="wiki-topbar-left"') < base.index('id="wiki-theme-toggle"')
-    assert base.index('id="wiki-theme-toggle"') < base.index('class="wiki-topbar-link"')
+    assert base.index('id="wiki-theme-toggle"') < base.index('class="wiki-topbar-link wiki-topbar-icon-button')
 
 
 def test_theme_script_is_loaded_before_plotly_renderer():
@@ -40,9 +49,13 @@ def test_theme_tokens_exist_in_both_asset_copies():
 
         assert ':root[data-theme="light"]' in css
         assert "--plotly-font-color" in css
-        assert "--theme-toggle-bg" in css
+        assert "--theme-toggle-track-bg" in css
         assert ".wiki-theme-toggle" in css
-        assert "width: 32px;" in css
+        assert "--wiki-theme-toggle-width: 64px;" in css
+        assert ".wiki-theme-toggle-thumb" in css
+        assert "z-index: 1;" in css
+        assert "z-index: 2;" in css
+        assert ".wiki-topbar-icon-button" in css
         assert "border-radius: 50%;" in css
         assert '[data-theme="light"] .code-block-body .n' in css
 
@@ -52,6 +65,7 @@ def test_theme_toggle_controller_persists_choice_and_announces_changes():
 
     assert "energyatlas-wiki-theme" in script
     assert "localStorage.setItem" in script
+    assert "prefers-color-scheme: dark" in script
     assert "aria-pressed" in script
     assert "energyatlas-theme-change" in script
 

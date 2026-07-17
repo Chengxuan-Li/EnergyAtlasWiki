@@ -31,6 +31,10 @@
     --theme-toggle-border: #404040;
     --theme-toggle-active-bg: #4da3ff;
     --theme-toggle-active-text: #101820;
+    --theme-toggle-track-bg: linear-gradient(180deg, rgba(44, 50, 61, 0.96) 0%, rgba(31, 36, 46, 0.96) 100%);
+    --theme-toggle-thumb-bg: #f7fbff;
+    --theme-toggle-thumb-shadow: 0 2px 8px rgba(0, 0, 0, 0.32);
+    --theme-toggle-icon-color: #b7c4d6;
     
     --font-family: 'Roboto Flex', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-family-mono: 'Cascadia Code', 'Cascadia Mono', Consolas, 'Courier New', monospace;
@@ -88,6 +92,10 @@
     --theme-toggle-border: #cfd8e5;
     --theme-toggle-active-bg: #125dae;
     --theme-toggle-active-text: #ffffff;
+    --theme-toggle-track-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(237, 243, 251, 0.98) 100%);
+    --theme-toggle-thumb-bg: #ffffff;
+    --theme-toggle-thumb-shadow: 0 2px 10px rgba(18, 32, 44, 0.12);
+    --theme-toggle-icon-color: #6c7b8f;
     --shadow: 0 8px 24px rgba(24, 32, 44, 0.08);
 }
 
@@ -433,6 +441,31 @@ body.menu {
     border-color: var(--accent-color);
 }
 
+.wiki-topbar-icon-button {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
+    padding: 0;
+    justify-content: center;
+    gap: 0;
+    border-radius: 50%;
+    color: var(--text-light);
+    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.wiki-topbar-icon-button:hover {
+    color: var(--text-dark);
+    border-color: var(--accent-color);
+    background: var(--bg-white);
+    transform: translateY(-1px);
+}
+
+.wiki-topbar-icon-button:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+}
+
 .wiki-topbar-link-icon {
     display: inline-flex;
     align-items: center;
@@ -447,29 +480,35 @@ body.menu {
 }
 
 .wiki-theme-toggle {
+    --wiki-theme-toggle-width: 64px;
+    --wiki-theme-toggle-height: 32px;
+    --wiki-theme-toggle-padding: 2px;
+    --wiki-theme-toggle-thumb-size: 28px;
+    --wiki-theme-toggle-end-size: 24px;
+    --wiki-theme-toggle-thumb-offset: calc(var(--wiki-theme-toggle-width) - (var(--wiki-theme-toggle-padding) * 2) - var(--wiki-theme-toggle-thumb-size));
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
-    min-width: 32px;
-    min-height: 32px;
+    width: var(--wiki-theme-toggle-width);
+    height: var(--wiki-theme-toggle-height);
+    min-width: var(--wiki-theme-toggle-width);
+    min-height: var(--wiki-theme-toggle-height);
     padding: 0;
-    border: 1px solid var(--theme-toggle-border);
-    border-radius: 50%;
-    background: var(--theme-toggle-bg);
+    border: none;
+    border-radius: calc(var(--wiki-theme-toggle-height) / 2);
+    background: transparent;
     color: var(--text-light);
     font-family: var(--font-family);
     font-size: var(--font-size-xs);
     font-variation-settings: 'wdth' 150, 'wght' 500;
     cursor: pointer;
-    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+    transition: transform 0.2s ease;
     flex-shrink: 0;
+    position: relative;
 }
 
 .wiki-theme-toggle:hover {
-    border-color: var(--accent-color);
-    color: var(--text-dark);
+    transform: translateY(-1px);
 }
 
 .wiki-theme-toggle:focus-visible {
@@ -477,36 +516,79 @@ body.menu {
     outline-offset: 2px;
 }
 
-.wiki-theme-toggle[aria-pressed="true"] {
-    background: var(--theme-toggle-active-bg);
-    border-color: var(--theme-toggle-active-bg);
-    color: var(--theme-toggle-active-text);
+.wiki-theme-toggle-track {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    border: 1px solid var(--theme-toggle-border);
+    background: var(--theme-toggle-track-bg);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
 }
 
-.wiki-theme-toggle-icon {
-    width: 16px;
-    height: 16px;
+.wiki-theme-toggle-thumb {
+    position: absolute;
+    top: 50%;
+    left: var(--wiki-theme-toggle-padding);
+    width: var(--wiki-theme-toggle-thumb-size);
+    height: var(--wiki-theme-toggle-thumb-size);
+    border-radius: 50%;
+    transform: translate3d(0, -50%, 0);
+    background: var(--theme-toggle-thumb-bg);
+    box-shadow: var(--theme-toggle-thumb-shadow);
+    z-index: 1;
+    transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1), background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.wiki-theme-toggle[data-theme="dark"] .wiki-theme-toggle-thumb {
+    transform: translate3d(var(--wiki-theme-toggle-thumb-offset), -50%, 0);
+}
+
+.wiki-theme-toggle-end {
+    position: absolute;
+    top: 50%;
+    width: var(--wiki-theme-toggle-end-size);
+    height: var(--wiki-theme-toggle-end-size);
+    border-radius: 50%;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    line-height: 0;
+    color: var(--theme-toggle-icon-color);
+    background: transparent;
+    border: 1px solid transparent;
+    transform: translateY(-50%);
+    z-index: 2;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
-.wiki-theme-toggle-icon svg {
-    width: 16px;
-    height: 16px;
+.wiki-theme-toggle-end-light {
+    left: calc(var(--wiki-theme-toggle-padding) + 1px);
+}
+
+.wiki-theme-toggle-end-dark {
+    right: calc(var(--wiki-theme-toggle-padding) + 1px);
+}
+
+.wiki-theme-toggle-icon {
+    width: 14px;
+    height: 14px;
     display: block;
 }
 
-.wiki-theme-toggle-icon-sun {
-    display: none;
+.wiki-theme-toggle[data-theme="light"] .wiki-theme-toggle-end-light,
+.wiki-theme-toggle[data-theme="dark"] .wiki-theme-toggle-end-dark {
+    background: var(--theme-toggle-active-bg);
+    border-color: var(--theme-toggle-active-bg);
+    color: var(--theme-toggle-active-text);
+    box-shadow: 0 2px 8px rgba(18, 93, 174, 0.25);
 }
 
-[data-theme="light"] .wiki-theme-toggle-icon-sun {
-    display: inline-flex;
-}
-
-[data-theme="light"] .wiki-theme-toggle-icon-moon {
-    display: none;
+.wiki-theme-toggle[data-theme="light"] .wiki-theme-toggle-thumb,
+.wiki-theme-toggle[data-theme="dark"] .wiki-theme-toggle-thumb {
+    background: var(--bg-white);
 }
 
 body.menu > .container {
