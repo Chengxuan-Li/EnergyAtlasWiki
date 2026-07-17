@@ -51,8 +51,10 @@ def test_theme_tokens_exist_in_both_asset_copies():
         assert "--plotly-font-color" in css
         assert "--theme-toggle-track-bg" in css
         assert ".wiki-theme-toggle" in css
-        assert "--wiki-theme-toggle-width: 84px;" in css
+        assert "--wiki-theme-toggle-width: 64px;" in css
         assert ".wiki-theme-toggle-thumb" in css
+        assert "z-index: 1;" in css
+        assert "z-index: 2;" in css
         assert ".wiki-topbar-icon-button" in css
         assert "border-radius: 50%;" in css
         assert '[data-theme="light"] .code-block-body .n' in css
