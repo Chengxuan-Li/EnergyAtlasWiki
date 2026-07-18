@@ -100,6 +100,16 @@ def flatten_nav_pages(items: Any) -> list[Any]:
     return pages
 
 
+def nav_page_groups(items: Any) -> list[list[Any]]:
+    """Return page sequences scoped to each top-level wiki subspace."""
+    groups: list[list[Any]] = []
+    for item in items:
+        pages = flatten_nav_pages([item])
+        if pages:
+            groups.append(pages)
+    return groups
+
+
 def article_summary(page: Any) -> dict[str, str]:
     return {
         "title": page.title,
@@ -129,16 +139,26 @@ def apply_article_nav_metadata(page: Any, pages: list[Any]) -> None:
     page.meta["next_article"] = None
 
 
-def on_nav(nav: Any, config: Any, files: Any) -> Any:
-    pages = flatten_nav_pages(getattr(nav, "items", []))
+def apply_grouped_article_nav_metadata(page: Any, groups: list[list[Any]]) -> None:
+    current_key = page_key(page)
+    for pages in groups:
+        if any(nav_page is page or (current_key and page_key(nav_page) == current_key) for nav_page in pages):
+            apply_article_nav_metadata(page, pages)
+            return
 
-    for index, page in enumerate(pages):
-        page.meta["previous_article"] = article_summary(pages[index - 1]) if index > 0 else None
-        page.meta["next_article"] = article_summary(pages[index + 1]) if index < len(pages) - 1 else None
+    page.meta["previous_article"] = None
+    page.meta["next_article"] = None
+
+
+def on_nav(nav: Any, config: Any, files: Any) -> Any:
+    for pages in nav_page_groups(getattr(nav, "items", [])):
+        for index, page in enumerate(pages):
+            page.meta["previous_article"] = article_summary(pages[index - 1]) if index > 0 else None
+            page.meta["next_article"] = article_summary(pages[index + 1]) if index < len(pages) - 1 else None
 
     return nav
 
 
 def on_page_context(context: dict[str, Any], page: Any, config: Any, nav: Any) -> dict[str, Any]:
-    apply_article_nav_metadata(page, flatten_nav_pages(getattr(nav, "items", [])))
+    apply_grouped_article_nav_metadata(page, nav_page_groups(getattr(nav, "items", [])))
     return context

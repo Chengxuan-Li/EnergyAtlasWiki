@@ -49,7 +49,7 @@
         }
 
         .wiki-grid {
-            grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+            grid-template-columns: minmax(0, var(--wiki-article-max-width)) var(--wiki-page-toc-width);
         }
 
         .wiki-grid-full-width {
@@ -226,127 +226,143 @@
         }
     </style>
 </head>
+{% macro render_space_tree(items) %}
+    <ul class="wiki-space-tree-list">
+        {% for item in items %}
+            <li class="wiki-space-tree-item">
+                {% if item.children %}
+                    <details class="wiki-space-tree-group" {% if item.active %}open{% endif %}>
+                        <summary class="wiki-space-tree-summary">
+                            <svg class="wiki-space-tree-chevron" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                <polyline points="6 3 11 8 6 13"></polyline>
+                            </svg>
+                            <span>{{ item.title }}</span>
+                        </summary>
+                        {{ render_space_tree(item.children) }}
+                    </details>
+                {% else %}
+                    <a class="wiki-space-tree-link {% if item.active %}active{% endif %}" href="{{ item.url | url }}" {% if item.active %}aria-current="page"{% endif %}>
+                        {{ item.title }}
+                    </a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endmacro %}
 <body class="menu">
     {% set page_full_width = page and page.meta and page.meta.full_width %}
-    <div class="wiki-topbar">
-        <div class="wiki-topbar-inner">
-            <div class="wiki-topbar-left-group">
-                <a class="wiki-topbar-left" href="{{ 'index.html' | url }}" aria-label="{{ config.site_name }}">
-                    <img class="wiki-topbar-icon" src="{{ 'assets/images/icon.svg' | url }}" alt="EnergyAtlas Logo" />
-                    <span class="wiki-topbar-title">EnergyAtlas</span><span class="wiki-topbar-title-light"> Wiki</span>
-                </a>
-                <button
-                    type="button"
-                    class="wiki-theme-toggle"
-                    id="wiki-theme-toggle"
-                    aria-pressed="false"
-                    aria-label="Switch to light mode"
-                    title="Switch to light mode"
-                >
-                    <span class="wiki-theme-toggle-track" aria-hidden="true">
-                        <span class="wiki-theme-toggle-end wiki-theme-toggle-end-light">
-                            <svg class="wiki-theme-toggle-icon" viewBox="0 0 24 24" fill="none">
-                                <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" />
-                                <path d="M12 2v3M12 19v3M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M2 12h3M19 12h3M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                            </svg>
-                        </span>
-                        <span class="wiki-theme-toggle-thumb"></span>
-                        <span class="wiki-theme-toggle-end wiki-theme-toggle-end-dark">
-                            <svg class="wiki-theme-toggle-icon" viewBox="0 0 24 24" fill="none">
-                                <path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5A8.5 8.5 0 1 0 20.5 14.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
-                            </svg>
-                        </span>
-                    </span>
-                </button>
-                {% if page and page.edit_url %}
-                    <a class="wiki-topbar-link wiki-topbar-icon-button wiki-topbar-edit-button" href="{{ page.edit_url }}" target="_blank" rel="noopener" aria-label="Edit this page" title="Edit this page">
-                        <span class="wiki-topbar-link-icon" aria-hidden="true">
-                            <svg class="wiki-topbar-pen-icon" viewBox="0 0 16 16" fill="none" focusable="false">
-                                <path d="M10.9 2.3 13.7 5.1 5.3 13.5H2.5v-2.8L10.9 2.3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
-                                <path d="M9.7 3.5 12.5 6.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
-                            </svg>
-                        </span>
-                    </a>
-                {% endif %}
-                {% if config.repo_url %}
-                    <a class="wiki-topbar-link wiki-topbar-icon-button wiki-topbar-github-button" href="{{ config.repo_url }}" target="_blank" rel="noopener" aria-label="View GitHub repository" title="View GitHub repository">
-                        <span class="wiki-topbar-link-icon" aria-hidden="true">
-                            <svg class="wiki-topbar-github-icon" viewBox="0 0 16 16" fill="currentColor" focusable="false">
-                                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2 .37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.5 7.5 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
-                            </svg>
-                        </span>
-                    </a>
-                {% endif %}
-            </div>
-            <nav class="wiki-topbar-nav" role="navigation" aria-label="Main navigation">
-                <ul class="wiki-topbar-nav-list">
-                    <li><a class="wiki-topbar-nav-link" href="{{ 'getting-started/installation/' | url }}">Install</a></li>
-                    <li><a class="wiki-topbar-nav-link" href="{{ 'ubem-wiki/ubem-wiki/' | url }}">UBEM</a></li>
-                    <li><a class="wiki-topbar-nav-link" href="{{ 'references/workflows/' | url }}">Workflows</a></li>
-                    <li><a class="wiki-topbar-nav-link" href="{{ 'references/python-reference/' | url }}">Python</a></li>
-                    <li><a class="wiki-topbar-nav-link" href="{{ 'references/web-api-reference/' | url }}">Web API</a></li>
-                    <li><a class="wiki-topbar-nav-link" href="{{ 'resources/energyatlas-library/' | url }}">Library</a></li>
-                    <li><a class="wiki-topbar-nav-link" href="{{ 'resources/site-map/' | url }}">Site Map</a></li>
-                </ul>
-            </nav>
-        </div>
-    </div>
-    <div class="container">
-        <div class="menu-content">
-            <div class="menu-grid wiki-grid {% if page_full_width %}wiki-grid-full-width{% endif %}">
-                {% if not page_full_width %}
-                <aside class="menu-column menu-column-nav">
-                    <div class="menu-column-header">
-                        <h2 class="menu-column-title">Wiki Navigation</h2>
-                        <p class="menu-column-subtitle">Browse topics and documentation pages.</p>
-                    </div>
+    {% set current_space = namespace(item=none) %}
+    {% if nav %}
+        {% for nav_item in nav %}
+            {% if nav_item.active %}
+                {% set current_space.item = nav_item %}
+            {% endif %}
+        {% endfor %}
+        {% if current_space.item is none and nav.items %}
+            {% set current_space.item = nav.items[0] %}
+        {% endif %}
+    {% endif %}
 
-                    {% if nav %}
-                        {% set first_section = true %}
+    <button class="wiki-sidebar-toggle" id="wiki-sidebar-toggle" type="button" aria-controls="wiki-sidebar" aria-expanded="false" aria-label="Open wiki navigation">
+        <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+            <path d="M3 5h14M3 10h14M3 15h14"></path>
+        </svg>
+    </button>
+    <div class="wiki-sidebar-scrim" id="wiki-sidebar-scrim" hidden></div>
+
+    <aside class="wiki-sidebar" id="wiki-sidebar" aria-label="Wiki navigation">
+        <div class="wiki-sidebar-header">
+            <a class="wiki-sidebar-brand" href="{{ 'index.html' | url }}" aria-label="{{ config.site_name }}">
+                <img class="wiki-sidebar-logo" src="{{ 'assets/images/icon.svg' | url }}" alt="" />
+                <span class="wiki-sidebar-brand-name">EnergyAtlas</span>
+                <span class="wiki-sidebar-brand-suffix">Wiki</span>
+            </a>
+            <button class="wiki-sidebar-close" id="wiki-sidebar-close" type="button" aria-label="Close wiki navigation">
+                <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+                    <path d="m5 5 10 10M15 5 5 15"></path>
+                </svg>
+            </button>
+        </div>
+
+        <div class="wiki-sidebar-body">
+            {% if current_space.item %}
+                <details class="wiki-space-switcher" id="wiki-space-switcher">
+                    <summary class="wiki-space-switcher-summary">
+                        <span class="wiki-space-switcher-copy">
+                            <span class="wiki-space-switcher-label">Subspace</span>
+                            <span class="wiki-space-switcher-value">{{ current_space.item.title }}</span>
+                        </span>
+                        <svg class="wiki-space-switcher-chevron" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                            <polyline points="4 6 8 10 12 6"></polyline>
+                        </svg>
+                    </summary>
+                    <div class="wiki-space-switcher-menu">
                         {% for nav_item in nav %}
                             {% if nav_item.children %}
-                                {% if first_section %}
-                                    <div class="menu-card">
-                                        <h3 class="menu-card-title">{{ nav_item.title }}</h3>
-                                        <div class="menu-link-list">
-                                        {% for nav_child in nav_item.children %}
-                                            <a class="menu-link wiki-nav-link {% if nav_child.active %}active{% endif %}" href="{{ nav_child.url | url }}">
-                                                {{ nav_child.title }}
-                                            </a>
-                                        {% endfor %}
-                                        </div>
-                                    </div>
-                                    {% set first_section = false %}
-                                {% else %}
-                                    <h3 class="menu-section-title">{{ nav_item.title }}</h3>
-                                    <div class="menu-link-list">
-                                        {% for nav_child in nav_item.children %}
-                                            <a class="menu-link wiki-nav-link {% if nav_child.active %}active{% endif %}" href="{{ nav_child.url | url }}">
-                                                {{ nav_child.title }}
-                                            </a>
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
+                                <a class="wiki-space-switcher-option {% if nav_item.active %}active{% endif %}" href="{{ nav_item.children[0].url | url }}" {% if nav_item.active %}aria-current="true"{% endif %}>
+                                    <span>{{ nav_item.title }}</span>
+                                    {% if nav_item.active %}
+                                        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><polyline points="3 8 6.5 11.5 13 4.5"></polyline></svg>
+                                    {% endif %}
+                                </a>
                             {% else %}
-                                {% if first_section %}
-                                    <div class="menu-card">
-                                        <h3 class="menu-card-title">{{ nav_item.title }}</h3>
-                                    </div>
-                                    {% set first_section = false %}
-                                {% else %}
-                                    <h3 class="menu-section-title">{{ nav_item.title }}</h3>
-                                    <div class="menu-link-list">
-                                        <a class="menu-link wiki-nav-link {% if nav_item.active %}active{% endif %}" href="{{ nav_item.url | url }}">
-                                            {{ nav_item.title }}
-                                        </a>
-                                    </div>
-                                {% endif %}
+                                <a class="wiki-space-switcher-option {% if nav_item.active %}active{% endif %}" href="{{ nav_item.url | url }}">{{ nav_item.title }}</a>
                             {% endif %}
                         {% endfor %}
-                    {% endif %}
-                </aside>
-                {% endif %}
+                    </div>
+                </details>
 
+                <nav class="wiki-space-navigation" aria-label="{{ current_space.item.title }} pages">
+                    {{ render_space_tree(current_space.item.children) }}
+                </nav>
+            {% endif %}
+        </div>
+
+        <div class="wiki-sidebar-tools" aria-label="Wiki tools">
+            <button
+                type="button"
+                class="wiki-theme-toggle"
+                id="wiki-theme-toggle"
+                aria-pressed="false"
+                aria-label="Switch to light mode"
+                title="Switch to light mode"
+            >
+                <span class="wiki-theme-toggle-track" aria-hidden="true">
+                    <span class="wiki-theme-toggle-end wiki-theme-toggle-end-light">
+                        <svg class="wiki-theme-toggle-icon" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" />
+                            <path d="M12 2v3M12 19v3M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M2 12h3M19 12h3M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                        </svg>
+                    </span>
+                    <span class="wiki-theme-toggle-thumb"></span>
+                    <span class="wiki-theme-toggle-end wiki-theme-toggle-end-dark">
+                        <svg class="wiki-theme-toggle-icon" viewBox="0 0 24 24" fill="none">
+                            <path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5A8.5 8.5 0 1 0 20.5 14.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                </span>
+            </button>
+            {% if page and page.edit_url %}
+                <a class="wiki-sidebar-tool" href="{{ page.edit_url }}" target="_blank" rel="noopener" aria-label="Edit this page" title="Edit this page">
+                    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+                        <path d="M10.9 2.3 13.7 5.1 5.3 13.5H2.5v-2.8L10.9 2.3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+                        <path d="M9.7 3.5 12.5 6.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                    </svg>
+                </a>
+            {% endif %}
+            {% if config.repo_url %}
+                <a class="wiki-sidebar-tool" href="{{ config.repo_url }}" target="_blank" rel="noopener" aria-label="View GitHub repository" title="View GitHub repository">
+                    <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false">
+                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2 .37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.5 7.5 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+                    </svg>
+                </a>
+            {% endif %}
+        </div>
+    </aside>
+
+    <div class="container wiki-page-shell">
+        <div class="menu-content">
+            <div class="menu-grid wiki-grid {% if page_full_width %}wiki-grid-full-width{% endif %}">
                 <main class="menu-column menu-column-content" id="main-content">
                     {% block content %}
                         {{ page.content }}
@@ -356,6 +372,7 @@
                 {% if not page_full_width %}
                 <aside class="menu-column menu-column-toc">
                     <nav class="toc-nav" id="toc-nav">
+                        <p class="toc-heading">On this page</p>
                         {% if page.toc %}
                             <ul class="toc-list">
                                 {% for item in page.toc %}

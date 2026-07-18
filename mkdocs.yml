@@ -12,23 +12,79 @@ theme:
 
 nav:
   - Quick Start:
-    - New to Energy Atlas: index.md
-    - New to UBEM: getting-started/ubem-fundamentals.md
+    - Welcome: index.md
+    - Why EnergyAtlas: getting-started/why-cities-need-energyatlas.md
+    - UBEM Fundamentals: getting-started/ubem-fundamentals.md
+    - Installation: getting-started/installation.md
+    - Build Your First UBEM: getting-started/first-ubem.md
     - UBEM Wiki: ubem-wiki/ubem-wiki.md
 
-  - EnergyAtlas References:
-    - Input Output Guide: references/input-output.md
-    - Workflows Guide: references/workflows.md
-    - Objects Guide: references/energy-atlas-objects.md
-    - Python Reference: references/python-reference.md
-    - Web API Reference: references/web-api-reference.md
-    - Voxel Shading Guides: references/guides/voxel-shading-guide-index.md
+  - Workflows:
+    - Workflows Overview: references/workflows.md
+    - Input and Output: references/input-output.md
+    - Data Preparation: references/data-prep.md
+    - GUI Workflows:
+      - Urban Data Integration: references/workflows/urban-data-integration.md
+      - Spatial Data Preview: references/workflows/spatial-data-preview.md
+      - Template Definition and Assignment: references/workflows/template-definition-assignment.md
+      - Scenario Design and Simulation: references/workflows/scenario-design-simulation.md
+      - Running and Calibrating: references/workflows/running-calibrating.md
+      - Results View: references/workflows/results-view.md
+      - LiDAR Workflows: references/workflows/lidar-workflows.md
+    - Shading Guides:
+      - Shading Guide Index: references/guides/voxel-shading-guide-index.md
+      - Voxelization and Sensors: references/guides/voxelization-sensors-calculation.md
+      - Sunlit Fraction: references/guides/sunlit-fraction.md
+      - Sky and Horizon View Factors: references/guides/sky-horizon-view-factors.md
+      - Incident Radiation: references/guides/incident-radiation.md
 
-  - Resources:
-    - User Stories: resources/user-stories.md
-    - EnergyAtlas Library: resources/energyatlas-library.md
-    - Wiki Guide: wiki-guide/wiki-guide.md
+  - Python:
+    - Python Reference: references/python-reference.md
+
+  - WebAPI:
+    - Web API Reference: references/web-api-reference.md
     - Development Guide: dev-guide/dev-guide.md
+    - Architecture: dev-guide/architecture-concept.md
+    - Core: dev-guide/core/core.md
+    - Web Development:
+      - Overview: dev-guide/web/web.md
+      - Execution Modes: dev-guide/web/exec-modes.md
+      - GUI Jobs: dev-guide/web/gui-job.md
+      - GUI-less Jobs: dev-guide/web/guiless-job.md
+      - Local File Access: dev-guide/web/file-sys-access.md
+      - Report Logs: dev-guide/web/report-logs.md
+    - Grasshopper Development:
+      - Components: dev-guide/gh/gh-component.md
+      - Component Standards: dev-guide/gh/gh-component-standard.md
+      - Live Preview: dev-guide/gh/gh-component-liveprev.md
+
+  - Library:
+    - Library Overview: resources/energyatlas-library.md
+    - EnergyAtlas Objects: references/energy-atlas-objects.md
+    - Object Reference:
+      - Archetype: references/objects/archetype.md
+      - Archetype Assignment Rule: references/objects/archetype-assignment-rule.md
+      - Datahub: references/objects/datahub.md
+      - Geospatial Data: references/objects/geospatial-data.md
+      - Retrofit Measure: references/objects/retrofit-measure.md
+      - Scenario: references/objects/scenario.md
+      - Weather File: references/objects/weather-file.md
+    - Enums: references/enums.md
+    - Resource Libraries:
+      - Archetypes: resources/archetype-library.md
+      - Retrofit Measures: resources/retrofit-measures-library.md
+      - Weather: resources/weather-library.md
+    - Technical References: technical-references/technical-references.md
+
+  - User Stories:
+    - User Stories: resources/user-stories.md
+
+  - Wiki Guide:
+    - Contributing Guide: wiki-guide/wiki-guide.md
+    - Image Guide: wiki-guide/image-guide.md
+    - Plotting Guide: wiki-guide/plotting-guide.md
+    - Plotting Playground: wiki-guide/plotting-playground.md
+    - Site Map: resources/site-map.md
 
 markdown_extensions:
   - attr_list
@@ -60,5 +116,6 @@ extra_javascript:
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
   - https://cdn.jsdelivr.net/npm/js-yaml@4/dist/js-yaml.min.js
   - https://cdn.plot.ly/plotly-2.32.0.min.js
+  - assets/js/wiki-shell.js
   - assets/js/theme-toggle.js
   - assets/js/plotly-render.js

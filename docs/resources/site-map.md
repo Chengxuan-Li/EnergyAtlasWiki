@@ -28,17 +28,17 @@ full_width: true
 
 ### dev-guide/web
 
-[EnergyAtlasWeb Development Guide](../dev-guide/web/web.md)
+[Execution Modes](../dev-guide/web/exec-modes.md)
 
-[EnergyAtlasWeb Job (Single-Click, No GUI)](../dev-guide/web/guiless-job.md)
+[Working with Local Files](../dev-guide/web/file-sys-access.md)
 
 [EnergyAtlasWeb Job with Graphic User Interface (GUI)](../dev-guide/web/gui-job.md)
 
-[Execution Modes](../dev-guide/web/exec-modes.md)
+[EnergyAtlasWeb Job (Single-Click, No GUI)](../dev-guide/web/guiless-job.md)
 
 [SignalR Logging](../dev-guide/web/report-logs.md)
 
-[Working with Local Files](../dev-guide/web/file-sys-access.md)
+[EnergyAtlasWeb Development Guide](../dev-guide/web/web.md)
 
 ## getting-started
 
@@ -134,9 +134,9 @@ full_width: true
 
 ## wiki-guide
 
-[Embedding Plotly.js Charts in Wiki Page](../wiki-guide/plotting-guide.md)
-
 [Image Guide for EnergyAtlas Wiki](../wiki-guide/image-guide.md)
+
+[Embedding Plotly.js Charts in Wiki Page](../wiki-guide/plotting-guide.md)
 
 [Plotting Playground](../wiki-guide/plotting-playground.md)
 
