@@ -2454,16 +2454,28 @@ body.menu {
 .wiki-sidebar-tool,
 .wiki-sidebar-close,
 .wiki-sidebar-toggle {
-    width: 34px;
-    height: 34px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     color: var(--text-light);
+    cursor: pointer;
+}
+
+.wiki-sidebar-tool {
+    width: 32px;
+    height: 32px;
+    background: var(--theme-toggle-track-bg);
+    border: 1px solid var(--theme-toggle-border);
+    border-radius: 50%;
+}
+
+.wiki-sidebar-close,
+.wiki-sidebar-toggle {
+    width: 34px;
+    height: 34px;
     background: transparent;
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius-sm);
-    cursor: pointer;
 }
 
 .wiki-sidebar-tool:hover,
@@ -2474,7 +2486,23 @@ body.menu {
     border-color: var(--accent-color);
 }
 
-.wiki-sidebar-tool svg,
+.wiki-sidebar-tool svg {
+    width: 16px;
+    height: 16px;
+}
+
+.wiki-sidebar-tool .wiki-sidebar-tool-edit-icon {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+}
+
+.wiki-sidebar-tool .wiki-sidebar-tool-github-icon {
+    fill: currentColor;
+    stroke: none;
+}
+
 .wiki-sidebar-close svg,
 .wiki-sidebar-toggle svg {
     width: 17px;

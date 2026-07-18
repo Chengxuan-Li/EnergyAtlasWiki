@@ -24,6 +24,8 @@ def test_base_template_bootstraps_dark_first_theme_and_renders_toggle():
     assert 'aria-label="Edit this page"' in base
     assert 'aria-label="View GitHub repository"' in base
     assert 'class="wiki-sidebar-tool"' in base
+    assert 'class="wiki-sidebar-tool-edit-icon"' in base
+    assert 'class="wiki-sidebar-tool-github-icon"' in base
     assert 'href="{{ page.edit_url }}"' in base
     assert 'href="{{ config.repo_url }}"' in base
     assert base.index('class="wiki-sidebar-brand"') < base.index('id="wiki-space-switcher"')
@@ -60,6 +62,10 @@ def test_theme_tokens_exist_in_both_asset_copies():
         assert ".wiki-space-switcher" in css
         assert "scrollbar-gutter: stable;" in css
         assert ".wiki-sidebar-tools" in css
+        assert "background: var(--theme-toggle-track-bg);" in css
+        assert ".wiki-sidebar-tool .wiki-sidebar-tool-github-icon" in css
+        assert "fill: currentColor;" in css
+        assert "stroke: none;" in css
         active_link_block = css.split(".wiki-space-tree-link.active {", 1)[1].split("}", 1)[0]
         assert "box-shadow" not in active_link_block
         sidebar_header_block = css.split(".wiki-sidebar-header {", 1)[1].split("}", 1)[0]
