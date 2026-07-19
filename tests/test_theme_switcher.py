@@ -23,14 +23,14 @@ def test_base_template_bootstraps_dark_first_theme_and_renders_toggle():
     assert not re.search(r">\s*View on GitHub\s*<", base)
     assert 'aria-label="Edit this page"' in base
     assert 'aria-label="View GitHub repository"' in base
-    assert 'class="wiki-topbar-link wiki-topbar-icon-button wiki-topbar-edit-button"' in base
-    assert 'class="wiki-topbar-link wiki-topbar-icon-button wiki-topbar-github-button"' in base
+    assert 'class="wiki-sidebar-tool"' in base
+    assert 'class="wiki-sidebar-tool-edit-icon"' in base
+    assert 'class="wiki-sidebar-tool-github-icon"' in base
     assert 'href="{{ page.edit_url }}"' in base
     assert 'href="{{ config.repo_url }}"' in base
-    assert "wiki-topbar-pen-icon" in base
-    assert "wiki-topbar-github-icon" in base
-    assert base.index('class="wiki-topbar-left"') < base.index('id="wiki-theme-toggle"')
-    assert base.index('id="wiki-theme-toggle"') < base.index('class="wiki-topbar-link wiki-topbar-icon-button')
+    assert base.index('class="wiki-sidebar-brand"') < base.index('id="wiki-space-switcher"')
+    assert base.index('id="wiki-space-switcher"') < base.index('id="wiki-theme-toggle"')
+    assert base.index('id="wiki-theme-toggle"') < base.index('href="{{ page.edit_url }}"')
 
 
 def test_theme_script_is_loaded_before_plotly_renderer():
@@ -53,10 +53,25 @@ def test_theme_tokens_exist_in_both_asset_copies():
         assert ".wiki-theme-toggle" in css
         assert "--wiki-theme-toggle-width: 64px;" in css
         assert ".wiki-theme-toggle-thumb" in css
+        assert ':root[data-theme="dark"] .wiki-theme-toggle-thumb' in css
+        assert '.wiki-theme-toggle[data-theme="dark"] .wiki-theme-toggle-thumb' not in css
         assert "z-index: 1;" in css
         assert "z-index: 2;" in css
         assert ".wiki-topbar-icon-button" in css
         assert "border-radius: 50%;" in css
+        assert "--wiki-sidebar-width: 304px;" in css
+        assert "--wiki-article-max-width: 960px;" in css
+        assert ".wiki-space-switcher" in css
+        assert "scrollbar-gutter: stable;" in css
+        assert ".wiki-sidebar-tools" in css
+        assert "background: var(--theme-toggle-track-bg);" in css
+        assert ".wiki-sidebar-tool .wiki-sidebar-tool-github-icon" in css
+        assert "fill: currentColor;" in css
+        assert "stroke: none;" in css
+        active_link_block = css.split(".wiki-space-tree-link.active {", 1)[1].split("}", 1)[0]
+        assert "box-shadow" not in active_link_block
+        sidebar_header_block = css.split(".wiki-sidebar-header {", 1)[1].split("}", 1)[0]
+        assert "border-bottom" not in sidebar_header_block
         assert '[data-theme="light"] .code-block-body .n' in css
 
 
@@ -68,6 +83,18 @@ def test_theme_toggle_controller_persists_choice_and_announces_changes():
     assert "prefers-color-scheme: dark" in script
     assert "aria-pressed" in script
     assert "energyatlas-theme-change" in script
+
+
+def test_wiki_shell_controller_manages_accessible_drawer():
+    script = read("docs/assets/js/wiki-shell.js")
+
+    assert "wiki-sidebar-open" in script
+    assert "aria-expanded" in script
+    assert "setSidebarAvailable" in script
+    assert "sidebar.setAttribute('inert', '')" in script
+    assert "Escape" in script
+    assert "focusableSelector" in script
+    assert "matchMedia('(min-width: 1081px)')" in script
 
 
 def test_plotly_renderer_reads_css_theme_tokens_and_reacts_to_theme_change():

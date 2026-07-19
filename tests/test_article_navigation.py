@@ -19,7 +19,9 @@ def test_on_nav_sets_previous_and_next_article_metadata():
     first = SimpleNamespace(title="Home", url="index.html", meta={})
     second = SimpleNamespace(title="Guide", url="guide/", meta={})
     third = SimpleNamespace(title="API", url="api/", meta={})
-    nav = SimpleNamespace(items=[first, SimpleNamespace(children=[second, third])])
+    quick_start = SimpleNamespace(children=[first, second])
+    reference = SimpleNamespace(children=[third])
+    nav = SimpleNamespace(items=[quick_start, reference])
 
     result = wiki_metadata.on_nav(nav, config={}, files=[])
 
@@ -27,8 +29,8 @@ def test_on_nav_sets_previous_and_next_article_metadata():
     assert first.meta["previous_article"] is None
     assert first.meta["next_article"] == {"title": "Guide", "url": "guide/"}
     assert second.meta["previous_article"] == {"title": "Home", "url": "index.html"}
-    assert second.meta["next_article"] == {"title": "API", "url": "api/"}
-    assert third.meta["previous_article"] == {"title": "Guide", "url": "guide/"}
+    assert second.meta["next_article"] is None
+    assert third.meta["previous_article"] is None
     assert third.meta["next_article"] is None
 
 
@@ -36,7 +38,7 @@ def test_on_page_context_sets_current_page_article_metadata_by_file_key():
     first = SimpleNamespace(title="Home", url="index.html", meta={}, file=SimpleNamespace(src_uri="index.md"))
     second = SimpleNamespace(title="Guide", url="guide/", meta={}, file=SimpleNamespace(src_uri="guide.md"))
     render_page = SimpleNamespace(title="Guide", url="guide/", meta={}, file=SimpleNamespace(src_uri="guide.md"))
-    nav = SimpleNamespace(items=[first, second])
+    nav = SimpleNamespace(items=[SimpleNamespace(children=[first, second])])
 
     context = wiki_metadata.on_page_context({}, page=render_page, config={}, nav=nav)
 

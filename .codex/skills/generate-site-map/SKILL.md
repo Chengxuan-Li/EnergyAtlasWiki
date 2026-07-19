@@ -5,7 +5,7 @@ description: Use when updating or regenerating the EnergyAtlas Wiki site map pag
 
 # Generate Site Map
 
-Regenerate `docs/resources/site-map.md` as an exhaustive map of every Markdown page under `docs/`.
+Regenerate `docs/wiki-guide/site-map.md` as an exhaustive map of every Markdown page under `docs/`.
 
 ## Output Contract
 
@@ -20,9 +20,9 @@ full_width: true
 ```
 
 - Use `# Site Map` as the page title.
-- Include every `docs/**/*.md` file exactly once, including `docs/resources/site-map.md`.
+- Include every `docs/**/*.md` file exactly once, including `docs/wiki-guide/site-map.md`.
 - Follow the folder hierarchy with headings:
-  - `## Root` for files directly under `docs/`
+  - `## Root` only when files exist directly under `docs/`
   - `## folder-name` for first-level folders
   - `### folder-name/subfolder-name` for nested folders
 - Sort folders and pages alphabetically by path.
@@ -40,9 +40,9 @@ For each Markdown file:
 
 ## Link Rules
 
-- Links must be relative from `docs/resources/site-map.md`.
-- For files in `docs/resources/`, use links like `faq.md`.
-- For files outside `docs/resources/`, use links like `../references/workflows.md`.
+- Links must be relative from `docs/wiki-guide/site-map.md`.
+- For files in `docs/wiki-guide/`, use links like `image-guide.md`.
+- For files outside `docs/wiki-guide/`, use links like `../workflows/index.md`.
 - Keep links pointing to Markdown source files, not generated HTML paths.
 
 ## Verification
