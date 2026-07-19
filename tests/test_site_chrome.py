@@ -48,6 +48,57 @@ def test_mkdocs_navigation_defines_confirmed_subspaces_in_order():
     assert "EnergyAtlas References" not in config
 
 
+def test_subspace_switcher_uses_distinct_icons_without_an_eyebrow_label():
+    base = read("theme/base.html")
+
+    assert '<span class="wiki-space-switcher-label">Subspace</span>' not in base
+    assert "render_space_icon(current_space.item.title)" in base
+    assert "render_space_icon(nav_item.title)" in base
+    assert 'class="wiki-space-switcher-option-main"' in base
+    assert 'class="wiki-space-switcher-check"' in base
+    for icon_name in (
+        "quick-start",
+        "workflows",
+        "python",
+        "web-api",
+        "library",
+        "user-stories",
+        "wiki-guide",
+    ):
+        assert f"wiki-space-icon-{icon_name}" in base
+
+    for icon_name in (
+        "compass",
+        "monitor",
+        "code-xml",
+        "library-big",
+        "users-round",
+        "book-open-text",
+    ):
+        assert f'data-icon-source="lucide" data-icon-name="{icon_name}"' in base
+    assert 'data-icon-source="simple-icons" data-icon-name="python"' in base
+
+    for css_path in ("assets/css/main.css", "docs/assets/css/main.css"):
+        css = read(css_path)
+        brand_block = css.split(".wiki-sidebar-brand-name,", 1)[1].split("}", 1)[0]
+        value_block = css.split(".wiki-space-switcher-value {", 1)[1].split("}", 1)[0]
+        assert ".wiki-space-icon {" in css
+        assert "font-size: var(--font-size-lg);" in brand_block
+        assert "font-size: var(--font-size-base);" in value_block
+        assert "width: 24px;" in css
+        assert "--wiki-space-switcher-row-height: 56px;" in css
+        summary_block = css.split(".wiki-space-switcher-summary {", 1)[1].split("}", 1)[0]
+        option_block = css.split(".wiki-space-switcher-option {", 1)[1].split("}", 1)[0]
+        assert "font-size: var(--font-size-base);" in option_block
+        for block in (summary_block, option_block):
+            assert "height: var(--wiki-space-switcher-row-height);" in block
+            assert "min-height: var(--wiki-space-switcher-row-height);" in block
+        assert ".wiki-space-icon-python {" in css
+        assert "fill: currentColor;" in css
+        assert ".wiki-space-switcher-option-main {" in css
+        assert ".wiki-space-switcher-check {" in css
+
+
 def test_wide_tables_use_table_local_horizontal_scrollers():
     base = read("theme/base.html")
 
@@ -79,3 +130,21 @@ def test_desktop_sidebar_has_persistent_animated_collapse_control():
         assert ':root[data-sidebar-collapsed="true"] .wiki-sidebar' in css
         assert ':root[data-sidebar-collapsed="true"] .wiki-sidebar-tools' in css
         assert "--wiki-sidebar-tools-collapsed-width: 216px;" in css
+
+
+def test_scroll_progress_owns_a_separate_full_width_bottom_row():
+    base = read("theme/base.html")
+
+    assert 'id="scroll-progress-track"' in base
+    assert 'role="progressbar"' in base
+    assert 'aria-label="Page scroll progress"' in base
+    assert "scrollableHeight > 0" in base
+    assert "scrollProgressTrack.setAttribute('aria-valuenow'" in base
+
+    for css_path in ("assets/css/main.css", "docs/assets/css/main.css"):
+        css = read(css_path)
+        assert "--wiki-scroll-progress-height: 4px;" in css
+        assert "bottom: var(--wiki-scroll-progress-height);" in css
+        progress_block = css.split(".scroll-progress-bar {", 1)[1].split("}", 1)[0]
+        assert "height: var(--wiki-scroll-progress-height);" in progress_block
+        assert "z-index: 3800;" in progress_block

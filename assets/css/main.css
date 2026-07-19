@@ -59,6 +59,8 @@
     --max-width: 1200px;
     --wiki-sidebar-width: 304px;
     --wiki-sidebar-tools-collapsed-width: 216px;
+    --wiki-space-switcher-row-height: 56px;
+    --wiki-scroll-progress-height: 4px;
     --wiki-page-toc-width: 224px;
     --wiki-article-max-width: 960px;
     --wiki-layout-gap: clamp(1.5rem, 2.4vw, 2.75rem);
@@ -969,9 +971,9 @@ body.menu > .status-bar {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 4px;
-    background: transparent;
-    z-index: 3000;
+    height: var(--wiki-scroll-progress-height);
+    background: color-mix(in srgb, var(--border-color) 72%, var(--bg-dark-surface));
+    z-index: 3800;
     width: 100%;
 }
 
@@ -2201,11 +2203,16 @@ h3 {
 
 body.menu {
     min-width: 0;
+    padding-bottom: var(--wiki-scroll-progress-height);
+}
+
+body.menu.wiki-has-dev-banner {
+    padding-bottom: calc(clamp(7rem, 22vh, 11rem) + var(--wiki-scroll-progress-height));
 }
 
 .wiki-sidebar {
     position: fixed;
-    inset: 0 auto 0 0;
+    inset: 0 auto var(--wiki-scroll-progress-height) 0;
     z-index: 3700;
     width: var(--wiki-sidebar-width);
     display: flex;
@@ -2249,7 +2256,7 @@ body.menu {
 
 .wiki-sidebar-brand-name,
 .wiki-sidebar-brand-suffix {
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-lg);
     font-variation-settings: 'wdth' 150, 'wght' 650;
 }
 
@@ -2276,8 +2283,9 @@ body.menu {
 }
 
 .wiki-space-switcher-summary {
-    min-height: 58px;
-    padding: 0.65rem 0.75rem;
+    height: var(--wiki-space-switcher-row-height);
+    min-height: var(--wiki-space-switcher-row-height);
+    padding: 0 0.75rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -2316,23 +2324,34 @@ body.menu {
 .wiki-space-switcher-copy {
     min-width: 0;
     display: flex;
-    flex-direction: column;
-    gap: 0.1rem;
+    align-items: center;
+    gap: 0.65rem;
 }
 
-.wiki-space-switcher-label {
-    color: var(--text-muted);
-    font-size: 0.65rem;
-    font-variation-settings: 'wdth' 125, 'wght' 600;
-    letter-spacing: 0.09em;
-    line-height: 1.2;
-    text-transform: uppercase;
+.wiki-space-icon {
+    width: 24px;
+    height: 24px;
+    flex: 0 0 24px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.65;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.wiki-space-icon-python {
+    fill: currentColor;
+    stroke: none;
+}
+
+.wiki-space-switcher-summary .wiki-space-icon {
+    color: var(--accent-color);
 }
 
 .wiki-space-switcher-value {
     overflow: hidden;
     color: var(--text-dark);
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-base);
     font-variation-settings: 'wdth' 140, 'wght' 560;
     line-height: 1.3;
     text-overflow: ellipsis;
@@ -2369,15 +2388,16 @@ body.menu {
 }
 
 .wiki-space-switcher-option {
-    min-height: 34px;
-    padding: 0.45rem 0.6rem;
+    height: var(--wiki-space-switcher-row-height);
+    min-height: var(--wiki-space-switcher-row-height);
+    padding: 0 0.75rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: var(--spacing-sm);
     color: var(--text-light);
     border-radius: var(--border-radius-sm);
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-base);
     font-variation-settings: 'wdth' 135, 'wght' 380;
     text-decoration: none;
 }
@@ -2392,9 +2412,32 @@ body.menu {
     font-variation-settings: 'wdth' 135, 'wght' 600;
 }
 
-.wiki-space-switcher-option svg {
+.wiki-space-switcher-option-main {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.wiki-space-switcher-option-main > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.wiki-space-switcher-option .wiki-space-icon {
+    color: var(--text-muted);
+}
+
+.wiki-space-switcher-option:hover .wiki-space-icon,
+.wiki-space-switcher-option.active .wiki-space-icon {
+    color: var(--accent-color);
+}
+
+.wiki-space-switcher-check {
     width: 14px;
     height: 14px;
+    flex-shrink: 0;
     fill: none;
     stroke: var(--accent-color);
     stroke-width: 1.8;
@@ -2588,7 +2631,7 @@ body.menu {
 body.menu > .container.wiki-page-shell {
     width: calc(100% - var(--wiki-sidebar-width));
     max-width: none;
-    min-height: 100vh;
+    min-height: calc(100vh - var(--wiki-scroll-progress-height));
     margin: 0 0 0 var(--wiki-sidebar-width);
     padding: clamp(2rem, 4vw, 4.5rem) clamp(1.5rem, 3vw, 3.5rem);
     transition: width 0.28s cubic-bezier(0.22, 1, 0.36, 1), margin-left 0.28s cubic-bezier(0.22, 1, 0.36, 1);
@@ -2657,6 +2700,7 @@ body.menu > .container.wiki-page-shell {
 
 .wiki-dev-notice-banner {
     left: var(--wiki-sidebar-width);
+    bottom: var(--wiki-scroll-progress-height);
     transition: left 0.28s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -2733,6 +2777,7 @@ body.menu > .container.wiki-page-shell {
     .wiki-sidebar-scrim {
         position: fixed;
         inset: 0;
+        bottom: var(--wiki-scroll-progress-height);
         z-index: 3660;
         display: block;
         background: rgba(0, 0, 0, 0.52);

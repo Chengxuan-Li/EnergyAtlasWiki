@@ -34,12 +34,16 @@ A documentation wiki built with MkDocs, styled to match the EnergyAtlas design s
 
 ```
 .
-├── docs/                    # Documentation source files (Markdown)
-│   ├── index.md            # Home page
-│   ├── getting-started/   # Getting started guides
-│   ├── core-topics/        # Core topic documentation
-│   └── resources/          # Resources and references
-├── assets/                  # Static assets (CSS, images)
+├── docs/                         # Published wiki source
+│   ├── assets/                   # Shared CSS, JavaScript, images, and icons
+│   ├── quick-start/              # Welcome and onboarding
+│   ├── workflows/                # Input/output, GUI, and shading workflows
+│   ├── python/                   # Python reference
+│   ├── web-api/                  # Web API and development reference
+│   ├── library/                  # Objects, enums, and resource libraries
+│   ├── user-stories/             # User stories
+│   └── wiki-guide/               # Contribution guides and site map
+├── assets/                  # Theme asset source mirror
 │   ├── css/
 │   │   ├── main.css        # Main stylesheet (EnergyAtlas design system)
 │   │   └── statusBar.css   # Status bar styles
