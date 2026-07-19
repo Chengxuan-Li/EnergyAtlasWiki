@@ -46,3 +46,36 @@ def test_mkdocs_navigation_defines_confirmed_subspaces_in_order():
     positions = [config.index(heading) for heading in headings]
     assert positions == sorted(positions)
     assert "EnergyAtlas References" not in config
+
+
+def test_wide_tables_use_table_local_horizontal_scrollers():
+    base = read("theme/base.html")
+
+    assert "table-scroll-wrapper-wide" in base
+    assert "columnCount >= 5" in base
+    assert "wrapper.scrollWidth > wrapper.clientWidth" in base
+    assert "wrapper.setAttribute('aria-label', 'Scrollable table')" in base
+
+    for css_path in ("assets/css/main.css", "docs/assets/css/main.css"):
+        css = read(css_path)
+        assert ".table-scroll-wrapper-wide > table" in css
+        assert "width: max-content;" in css
+        assert "overscroll-behavior-inline: contain;" in css
+
+
+def test_desktop_sidebar_has_persistent_animated_collapse_control():
+    base = read("theme/base.html")
+    shell = read("docs/assets/js/wiki-shell.js")
+
+    assert 'id="wiki-sidebar-collapse"' in base
+    assert 'aria-controls="wiki-sidebar"' in base
+    assert "energyatlas-wiki-sidebar-collapsed" in base
+    assert "setDesktopCollapsed" in shell
+    assert "syncCollapsedAccessibility" in shell
+    assert "energyatlas-wiki-sidebar-collapsed" in shell
+
+    for css_path in ("assets/css/main.css", "docs/assets/css/main.css"):
+        css = read(css_path)
+        assert ':root[data-sidebar-collapsed="true"] .wiki-sidebar' in css
+        assert ':root[data-sidebar-collapsed="true"] .wiki-sidebar-tools' in css
+        assert "--wiki-sidebar-tools-collapsed-width: 216px;" in css

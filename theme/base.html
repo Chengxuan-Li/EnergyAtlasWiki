@@ -29,6 +29,14 @@
             }
             document.documentElement.dataset.theme = theme;
             document.documentElement.style.colorScheme = theme;
+
+            var sidebarCollapsed = false;
+            try {
+                sidebarCollapsed = localStorage.getItem('energyatlas-wiki-sidebar-collapsed') === 'true';
+            } catch (e) {
+                sidebarCollapsed = false;
+            }
+            document.documentElement.dataset.sidebarCollapsed = sidebarCollapsed ? 'true' : 'false';
         })();
     </script>
     
@@ -357,6 +365,19 @@
                     </svg>
                 </a>
             {% endif %}
+            <button
+                class="wiki-sidebar-tool wiki-sidebar-collapse"
+                id="wiki-sidebar-collapse"
+                type="button"
+                aria-controls="wiki-sidebar"
+                aria-expanded="true"
+                aria-label="Collapse wiki navigation"
+                title="Collapse wiki navigation"
+            >
+                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+                    <path d="M5 3.5v13M14 6l-4 4 4 4" />
+                </svg>
+            </button>
         </div>
     </aside>
 
@@ -675,8 +696,23 @@
                 if (table.parentElement && table.parentElement.classList.contains('table-scroll-wrapper')) return;
                 var wrapper = document.createElement('div');
                 wrapper.className = 'table-scroll-wrapper';
+                var columnCount = Array.from(table.rows).reduce(function(maximum, row) {
+                    return Math.max(maximum, row.cells.length);
+                }, 0);
+                if (columnCount >= 5) {
+                    wrapper.classList.add('table-scroll-wrapper-wide');
+                }
                 table.parentNode.insertBefore(wrapper, table);
                 wrapper.appendChild(table);
+
+                requestAnimationFrame(function() {
+                    if (wrapper.scrollWidth > wrapper.clientWidth) {
+                        wrapper.classList.add('is-scrollable');
+                        wrapper.setAttribute('role', 'region');
+                        wrapper.setAttribute('aria-label', 'Scrollable table');
+                        wrapper.tabIndex = 0;
+                    }
+                });
             });
 
             // Page transition animation for right pane

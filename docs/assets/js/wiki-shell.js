@@ -6,10 +6,13 @@
         const sidebar = document.getElementById('wiki-sidebar');
         const openButton = document.getElementById('wiki-sidebar-toggle');
         const closeButton = document.getElementById('wiki-sidebar-close');
+        const collapseButton = document.getElementById('wiki-sidebar-collapse');
         const scrim = document.getElementById('wiki-sidebar-scrim');
         const spaceSwitcher = document.getElementById('wiki-space-switcher');
+        const sidebarHeader = sidebar?.querySelector('.wiki-sidebar-header');
+        const sidebarBody = sidebar?.querySelector('.wiki-sidebar-body');
 
-        if (!sidebar || !openButton || !closeButton || !scrim) {
+        if (!sidebar || !openButton || !closeButton || !collapseButton || !scrim) {
             return;
         }
 
@@ -21,6 +24,40 @@
         ].join(',');
 
         const isDrawerOpen = () => body.classList.contains('wiki-sidebar-open');
+
+        const isDesktopCollapsed = () => document.documentElement.dataset.sidebarCollapsed === 'true';
+
+        const syncCollapsedAccessibility = () => {
+            const hideSidebarContent = DESKTOP_QUERY.matches && isDesktopCollapsed();
+
+            [sidebarHeader, sidebarBody].forEach((section) => {
+                if (!section) return;
+
+                if (hideSidebarContent) {
+                    section.setAttribute('inert', '');
+                    section.setAttribute('aria-hidden', 'true');
+                } else {
+                    section.removeAttribute('inert');
+                    section.removeAttribute('aria-hidden');
+                }
+            });
+        };
+
+        const setDesktopCollapsed = (collapsed, persist = true) => {
+            document.documentElement.dataset.sidebarCollapsed = collapsed ? 'true' : 'false';
+            collapseButton.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+            collapseButton.setAttribute('aria-label', collapsed ? 'Expand wiki navigation' : 'Collapse wiki navigation');
+            collapseButton.setAttribute('title', collapsed ? 'Expand wiki navigation' : 'Collapse wiki navigation');
+            syncCollapsedAccessibility();
+
+            if (persist) {
+                try {
+                    localStorage.setItem('energyatlas-wiki-sidebar-collapsed', collapsed ? 'true' : 'false');
+                } catch (error) {
+                    // The control still works when storage is unavailable.
+                }
+            }
+        };
 
         const setSidebarAvailable = (available) => {
             if (available) {
@@ -54,6 +91,11 @@
 
         openButton.addEventListener('click', openDrawer);
         closeButton.addEventListener('click', () => closeDrawer());
+        collapseButton.addEventListener('click', () => {
+            if (DESKTOP_QUERY.matches) {
+                setDesktopCollapsed(!isDesktopCollapsed());
+            }
+        });
         scrim.addEventListener('click', () => closeDrawer());
 
         sidebar.querySelectorAll('a[href]').forEach((link) => {
@@ -111,6 +153,7 @@
             if (event.matches) {
                 closeDrawer(false);
             }
+            syncCollapsedAccessibility();
         };
 
         if (typeof DESKTOP_QUERY.addEventListener === 'function') {
@@ -119,6 +162,7 @@
             DESKTOP_QUERY.addListener(handleViewportChange);
         }
 
+        setDesktopCollapsed(isDesktopCollapsed(), false);
         closeDrawer(false);
     });
 })();

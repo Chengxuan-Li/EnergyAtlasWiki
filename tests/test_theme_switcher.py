@@ -53,6 +53,8 @@ def test_theme_tokens_exist_in_both_asset_copies():
         assert ".wiki-theme-toggle" in css
         assert "--wiki-theme-toggle-width: 64px;" in css
         assert ".wiki-theme-toggle-thumb" in css
+        assert ':root[data-theme="dark"] .wiki-theme-toggle-thumb' in css
+        assert '.wiki-theme-toggle[data-theme="dark"] .wiki-theme-toggle-thumb' not in css
         assert "z-index: 1;" in css
         assert "z-index: 2;" in css
         assert ".wiki-topbar-icon-button" in css
