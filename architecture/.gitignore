@@ -1,0 +1,6 @@
+# Installed dependencies for the LikeC4 viewer build
+node_modules/
+
+# Generated manual-layout snapshots. Rebuilt from pristine auto-layout by
+# `npm run route`; never edited by hand and never committed.
+likec4/.likec4/

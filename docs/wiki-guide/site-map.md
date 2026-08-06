@@ -4,6 +4,16 @@ full_width: true
 
 # Site Map
 
+## architecture
+
+[Architecture Overview](../architecture/index.md)
+
+[Post-hoc Scenario Mixer](../architecture/post-hoc-scenario-mixer.md)
+
+[Scenario Simulation](../architecture/scenario-simulation.md)
+
+[Simulation Stages and Data Flow](../architecture/simulation-data-flow.md)
+
 ## library
 
 [Enums Reference](../library/enums.md)

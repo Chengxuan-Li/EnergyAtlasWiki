@@ -1,0 +1,30 @@
+{
+  "$schema": "https://likec4.dev/schemas/config.json",
+  "name": "energyatlas-public",
+  "styles": {
+    "theme": {
+      "colors": {
+        "primary": "#6f9fc9",
+        "secondary": "#7fa9c5",
+        "amber": "#d2a25a",
+        "indigo": "#8580c9",
+        "green": "#76aa82",
+        "gray": {
+          "elements": "#7b8187",
+          "relationships": {
+            "line": "#7b8187",
+            "label": "#4b5258",
+            "labelBg": "rgba(255, 255, 255, 0.92)"
+          }
+        }
+      }
+    },
+    "defaults": {
+      "relationship": {
+        "color": "gray",
+        "line": "solid",
+        "arrow": "normal"
+      }
+    }
+  }
+}

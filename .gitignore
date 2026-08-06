@@ -2,6 +2,13 @@
 site/
 .cache/
 
+# Generated LikeC4 viewer bundle. Rebuilt from architecture/likec4 by
+# `npm run viewer` and by the deploy workflow; never committed.
+docs/assets/js/likec4-views.js
+
+# Node
+node_modules/
+
 # Python
 __pycache__/
 *.py[cod]

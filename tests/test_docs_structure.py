@@ -13,6 +13,7 @@ DOCS = ROOT / "docs"
 CONTENT_ROOTS = {
     "quick-start": "Quick Start",
     "workflows": "Workflows",
+    "architecture": "Architecture",
     "python": "Python",
     "web-api": "WebAPI",
     "library": "Library",
@@ -94,7 +95,7 @@ def markdown_link_targets(source: Path) -> list[Path]:
 def test_all_markdown_pages_live_in_exactly_one_subspace():
     paths = markdown_paths()
 
-    assert len(paths) == 55
+    assert len(paths) == 59
     assert all(path.split("/", 1)[0] in CONTENT_ROOTS for path in paths)
     assert not any((DOCS / legacy).exists() for legacy in (
         "getting-started",
@@ -118,7 +119,7 @@ def test_navigation_matches_physical_subspace_folders_and_covers_every_page():
         assert all(path.startswith(f"{folder}/") for path in subspace_paths)
         nav_paths.extend(subspace_paths)
 
-    assert len(nav_paths) == 55
+    assert len(nav_paths) == 59
     assert set(nav_paths) == markdown_paths()
 
 

@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - master
+  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -17,10 +18,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -34,12 +32,69 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
+          pip install pytest
+
+      - name: Run structural, chrome, and public-safety tests
+        run: pytest -q
+
+  deploy:
+    needs: test
+    if: github.event_name != 'pull_request'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: architecture/package-lock.json
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          npm ci --prefix architecture
+
+      # Connector geometry must exist before codegen: the router's manual-layout
+      # snapshots are baked into the viewer bundle. It exits non-zero on any geometry
+      # violation, so a routing regression fails the deploy instead of publishing
+      # degraded diagrams.
+      - name: Route connectors orthogonally
+        run: npm run route --prefix architecture
+
+      - name: Generate the live LikeC4 viewer
+        run: npm run viewer --prefix architecture
+
+      - name: Verify the viewer bundle
+        run: |
+          bundle=docs/assets/js/likec4-views.js
+          test -f "$bundle" || { echo "::error::viewer bundle was not generated"; exit 1; }
+          size=$(wc -c < "$bundle")
+          echo "viewer bundle: $size bytes"
+          if [ "$size" -lt 1000000 ]; then
+            echo "::error::viewer bundle is implausibly small ($size bytes)"
+            exit 1
+          fi
+          grep -q 'likec4-view' "$bundle" || {
+            echo "::error::viewer bundle does not register the likec4-view element"
+            exit 1
+          }
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
       - name: Build with MkDocs
-        run: mkdocs build
+        run: mkdocs build --strict
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
