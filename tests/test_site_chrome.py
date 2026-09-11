@@ -36,6 +36,7 @@ def test_mkdocs_navigation_defines_confirmed_subspaces_in_order():
     headings = [
         "  - Quick Start:",
         "  - Workflows:",
+        "  - Architecture:",
         "  - Python:",
         "  - WebAPI:",
         "  - Library:",
@@ -59,6 +60,7 @@ def test_subspace_switcher_uses_distinct_icons_without_an_eyebrow_label():
     for icon_name in (
         "quick-start",
         "workflows",
+        "architecture",
         "python",
         "web-api",
         "library",
@@ -70,6 +72,7 @@ def test_subspace_switcher_uses_distinct_icons_without_an_eyebrow_label():
     for icon_name in (
         "compass",
         "monitor",
+        "network",
         "code-xml",
         "library-big",
         "users-round",
@@ -94,6 +97,7 @@ def test_subspace_switcher_uses_distinct_icons_without_an_eyebrow_label():
             assert "height: var(--wiki-space-switcher-row-height);" in block
             assert "min-height: var(--wiki-space-switcher-row-height);" in block
         assert ".wiki-space-icon-python {" in css
+        assert ".wiki-space-icon-architecture {" in css
         assert "fill: currentColor;" in css
         assert ".wiki-space-switcher-option-main {" in css
         assert ".wiki-space-switcher-check {" in css

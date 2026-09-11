@@ -1,0 +1,19 @@
+{
+  "name": "energyatlas-wiki-architecture",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Public LikeC4 architecture project for the EnergyAtlas Wiki, plus the connector router that produces its manual-layout snapshots.",
+  "scripts": {
+    "format:check": "likec4 format --check likec4",
+    "validate": "likec4 validate likec4",
+    "route": "node tools/orthogonal-router/src/cli.mjs --workspace likec4",
+    "viewer": "likec4 codegen webcomponent -o ../docs/assets/js/likec4-views.js likec4",
+    "build": "npm run validate && npm run route && npm run viewer",
+    "start": "likec4 start likec4"
+  },
+  "dependencies": {
+    "json5": "^2.2.3",
+    "likec4": "1.59.2"
+  }
+}

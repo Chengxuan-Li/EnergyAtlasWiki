@@ -2344,6 +2344,10 @@ body.menu.wiki-has-dev-banner {
     stroke: none;
 }
 
+.wiki-space-icon-architecture {
+    stroke-width: 1.5;
+}
+
 .wiki-space-switcher-summary .wiki-space-icon {
     color: var(--accent-color);
 }
@@ -2886,5 +2890,66 @@ body.menu > .container.wiki-page-shell {
     .highlighttable td.code {
         width: auto !important;
         min-width: 0 !important;
+    }
+}
+
+/* Live LikeC4 diagrams
+   ------------------------------------------------------------------
+   <likec4-view> renders into a shadow root and carries its own aspect ratio, so the figure
+   supplies chrome only. The host's box model is set here rather than left at the element
+   default, so a narrow viewport can give it a floor width and scroll instead of shrinking a
+   wide view down to an unreadable strip. */
+
+.md-content .likec4-figure {
+    margin: var(--spacing-lg) 0;
+    padding: 0;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background: var(--bg-light);
+    overflow: hidden;
+}
+
+.md-content .likec4-figure-canvas {
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+}
+
+.md-content .likec4-figure-canvas > likec4-view {
+    display: block;
+}
+
+.md-content .likec4-figure figcaption {
+    border-top: 1px solid var(--border-color);
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--font-size-sm);
+    color: var(--text-light);
+    background: var(--bg-dark-surface);
+}
+
+.md-content .likec4-figure figcaption a {
+    padding: 0;
+}
+
+/* Shown only where the diagram is scrolled rather than fully visible. */
+.md-content .likec4-figure-hint {
+    display: none;
+    margin-top: var(--spacing-xs);
+    color: var(--text-muted);
+}
+
+/* Without JavaScript the custom element never upgrades, leaving an empty frame. */
+.md-content .likec4-figure .likec4-figure-fallback {
+    padding: var(--spacing-md);
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+}
+
+@media (max-width: 719px) {
+    .md-content .likec4-figure-canvas > likec4-view {
+        min-width: 640px;
+    }
+
+    .md-content .likec4-figure-hint {
+        display: block;
     }
 }

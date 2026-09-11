@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="menu-column-header"></div>
+
+    <div class="md-content">
+        <h1>Page not found</h1>
+
+        <p>
+            That page does not exist, or it moved. The wiki is reorganised from time to time
+            and older links are redirected where possible.
+        </p>
+
+        <p>
+            Try the <a href="{{ 'index.html' | url }}">start page</a>, or browse the
+            <a href="{{ 'wiki-guide/site-map/' | url }}">site map</a>, which lists every page.
+        </p>
+
+        <p>
+            If a link on this site brought you here, please open an
+            <a href="https://github.com/Chengxuan-Li/EnergyAtlasWiki/issues/new">issue</a> on
+            GitHub.
+        </p>
+    </div>
+{% endblock %}

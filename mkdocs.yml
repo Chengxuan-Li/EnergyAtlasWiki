@@ -38,6 +38,12 @@ nav:
       - Sky and Horizon View Factors: workflows/shading/sky-horizon-view-factors.md
       - Incident Radiation: workflows/shading/incident-radiation.md
 
+  - Architecture:
+    - Architecture Overview: architecture/index.md
+    - Simulation Stages and Data Flow: architecture/simulation-data-flow.md
+    - Scenario Simulation: architecture/scenario-simulation.md
+    - Post-hoc Scenario Mixer: architecture/post-hoc-scenario-mixer.md
+
   - Python:
     - Python Reference: python/index.md
 
